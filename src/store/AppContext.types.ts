@@ -14,7 +14,20 @@ import type {
 
 // ── State shape ────────────────────────────────────────────────────────────
 
-export type View = 'design' | 'simulation';
+export type View = 'design' | 'simulation' | 'compare';
+
+/** A design the user has bookmarked for side-by-side comparison. */
+export interface SavedDesign {
+  id:        string;           // generated at save-time (crypto.randomUUID)
+  label:     string;           // user-facing name
+  savedAt:   string;           // ISO timestamp
+  design:    SystemDesign;
+  panel:     RankedPanel;
+  inverter:  RankedInverter;
+  battery:   RankedBattery;
+}
+
+export const MAX_SAVED = 3;
 
 export interface AppState {
   // Layer 1
@@ -35,6 +48,9 @@ export interface AppState {
 
   // Navigation
   view:              View;
+
+  // Compare (Day 5)
+  savedDesigns:      SavedDesign[];
 }
 
 // ── Defaults ───────────────────────────────────────────────────────────────
@@ -66,24 +82,30 @@ export const INITIAL_STATE: AppState = {
   simSpeed:    1,
 
   view: 'design',
+
+  savedDesigns: [],
 };
 
 // ── Actions ────────────────────────────────────────────────────────────────
 
 export type Action =
-  | { type: 'SET_FORM';           form: Partial<FacilityProfile> }
+  | { type: 'SET_FORM';            form: Partial<FacilityProfile> }
   | { type: 'DESIGN_START' }
-  | { type: 'DESIGN_SUCCESS';     design: SystemDesign }
-  | { type: 'DESIGN_ERROR';       error: string }
-  | { type: 'SELECT_PANEL';       panel: RankedPanel | null }
-  | { type: 'SELECT_INVERTER';    inverter: RankedInverter | null }
-  | { type: 'SELECT_BATTERY';     battery: RankedBattery | null }
-  | { type: 'SIM_TICK';           state: SimulationState }
+  | { type: 'DESIGN_SUCCESS';      design: SystemDesign }
+  | { type: 'DESIGN_ERROR';        error: string }
+  | { type: 'SELECT_PANEL';        panel: RankedPanel | null }
+  | { type: 'SELECT_INVERTER';     inverter: RankedInverter | null }
+  | { type: 'SELECT_BATTERY';      battery: RankedBattery | null }
+  | { type: 'SIM_TICK';            state: SimulationState }
   | { type: 'SIM_HISTORY_REPLACE'; history: SimulationState[] }
   | { type: 'SIM_CLEAR_HISTORY' }
-  | { type: 'SIM_SET_RUNNING';    running: boolean }
-  | { type: 'SIM_SET_PAUSED';     paused: boolean }
-  | { type: 'SIM_SET_SPEED';      speed: number }
-  | { type: 'NAVIGATE';           view: View };
+  | { type: 'SIM_SET_RUNNING';     running: boolean }
+  | { type: 'SIM_SET_PAUSED';      paused: boolean }
+  | { type: 'SIM_SET_SPEED';       speed: number }
+  | { type: 'NAVIGATE';            view: View }
+  | { type: 'SAVE_DESIGN';         saved: SavedDesign }
+  | { type: 'REMOVE_SAVED_DESIGN'; id: string }
+  | { type: 'LOAD_SAVED_DESIGN';   id: string }
+  | { type: 'HYDRATE_SAVED';       saved: SavedDesign[] };
 
 export const HISTORY_CAP = 288;   // 72 hours at 15-min intervals

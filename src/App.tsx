@@ -1,7 +1,7 @@
 /**
  * App.tsx — app root. Renders a persistent top header + the active view.
- * SimulationView is lazy-loaded so its chart + diagram libraries stay out of
- * the initial bundle until the user actually opens it.
+ * SimulationView and CompareView are lazy-loaded so their libraries stay out
+ * of the initial bundle until the user actually opens those views.
  */
 
 import { Suspense, lazy } from 'react';
@@ -13,6 +13,9 @@ import { DesignView } from './views/DesignView';
 const SimulationView = lazy(() =>
   import('./views/SimulationView').then(m => ({ default: m.SimulationView }))
 );
+const CompareView = lazy(() =>
+  import('./views/CompareView').then(m => ({ default: m.CompareView }))
+);
 
 function Shell() {
   const { state } = useApp();
@@ -21,11 +24,15 @@ function Shell() {
     <>
       <AppHeader />
       <main className="app-main">
-        {state.view === 'design' ? (
-          <DesignView />
-        ) : (
+        {state.view === 'design' && <DesignView />}
+        {state.view === 'simulation' && (
           <Suspense fallback={<ViewLoading />}>
             <SimulationView />
+          </Suspense>
+        )}
+        {state.view === 'compare' && (
+          <Suspense fallback={<ViewLoading />}>
+            <CompareView />
           </Suspense>
         )}
       </main>

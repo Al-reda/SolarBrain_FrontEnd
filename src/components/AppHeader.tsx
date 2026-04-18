@@ -10,8 +10,9 @@ import type { View } from '../store/AppContext.types';
 export function AppHeader() {
   const { t, i18n } = useTranslation();
   const { state, dispatch } = useApp();
-  const { view, systemDesign } = state;
+  const { view, systemDesign, savedDesigns } = state;
   const isArabic = i18n.language === 'ar';
+  const savedCount = savedDesigns.length;
 
   function goto(target: View) {
     if (target === 'simulation' && !systemDesign) return;
@@ -50,6 +51,16 @@ export function AppHeader() {
               title={systemDesign ? undefined : t('nav.simDisabledHint')}
             >
               {t('nav.simulation')}
+            </button>
+            <button
+              type="button"
+              className={`nav-tab ${view === 'compare' ? 'nav-tab--on' : ''}`}
+              onClick={() => goto('compare')}
+            >
+              {t('compare.viewTitle')}
+              {savedCount > 0 && (
+                <span className="nav-tab__badge">{savedCount}</span>
+              )}
             </button>
           </nav>
 

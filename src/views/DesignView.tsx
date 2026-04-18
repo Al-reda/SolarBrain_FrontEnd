@@ -17,6 +17,7 @@ import { Kpis }           from '../components/Kpis';
 import { RoiChart }       from '../components/RoiChart';
 import { SystemDiagram }  from '../components/SystemDiagram';
 import { DownloadProposalButton } from '../components/DownloadProposalButton';
+import { SaveDesignButton } from '../components/SaveDesignButton';
 
 export function DesignView() {
   const { t } = useTranslation();
@@ -98,6 +99,7 @@ export function DesignView() {
           </section>
 
           <div className="design-form__submit design-form__submit--row">
+            <SaveDesignButton />
             <DownloadProposalButton />
             <button
               className="btn btn--amber btn--lg"

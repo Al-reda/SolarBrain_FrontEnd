@@ -3,7 +3,7 @@
  * in isolation. Lives next to the Context so the related code stays together.
  */
 
-import { HISTORY_CAP } from './AppContext.types';
+import { HISTORY_CAP, MAX_SAVED } from './AppContext.types';
 import type { Action, AppState } from './AppContext.types';
 
 export function appReducer(state: AppState, action: Action): AppState {
@@ -54,6 +54,45 @@ export function appReducer(state: AppState, action: Action): AppState {
     case 'SIM_SET_SPEED':   return { ...state, simSpeed:   action.speed };
 
     case 'NAVIGATE':        return { ...state, view: action.view };
+
+    // ── Compare (Day 5) ────────────────────────────────────────────────
+    case 'SAVE_DESIGN': {
+      // Cap at MAX_SAVED. Oldest entry falls off the end if we'd exceed.
+      const withoutDup = state.savedDesigns.filter(s => s.id !== action.saved.id);
+      const next       = [action.saved, ...withoutDup].slice(0, MAX_SAVED);
+      return { ...state, savedDesigns: next };
+    }
+
+    case 'REMOVE_SAVED_DESIGN':
+      return {
+        ...state,
+        savedDesigns: state.savedDesigns.filter(s => s.id !== action.id),
+      };
+
+    case 'LOAD_SAVED_DESIGN': {
+      const s = state.savedDesigns.find(x => x.id === action.id);
+      if (!s) return state;
+      return {
+        ...state,
+        systemDesign:     s.design,
+        selectedPanel:    s.panel,
+        selectedInverter: s.inverter,
+        selectedBattery:  s.battery,
+        formValues:       {
+          ...state.formValues,
+          userType:        s.design.profile.userType,
+          region:          s.design.profile.region,
+          gridScenario:    s.design.profile.gridScenario,
+          monthlyBillSar:  s.design.profile.monthlyBillSar,
+          peakLoadKw:      s.design.profile.peakLoadKw,
+          criticalLoadPct: s.design.profile.criticalLoadPct,
+        },
+        view: 'design',
+      };
+    }
+
+    case 'HYDRATE_SAVED':
+      return { ...state, savedDesigns: action.saved };
 
     default:
       return state;

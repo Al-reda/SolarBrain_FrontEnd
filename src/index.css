@@ -1225,3 +1225,229 @@ html[dir="rtl"] .app-header__right { flex-direction: row-reverse; }
   opacity: 0.6;
   cursor: wait;
 }
+
+/* ═════════════════════════════════════════════════════════════════
+   COMPARE DESIGNS — tab badge, grid, cards
+═════════════════════════════════════════════════════════════════ */
+
+/* Tiny numeric badge next to the Compare tab label */
+.nav-tab__badge {
+  display: inline-block;
+  min-width: 18px;
+  height: 18px;
+  line-height: 18px;
+  padding: 0 5px;
+  margin-inline-start: 7px;
+  background: var(--sb-gold);
+  color: var(--sb-navy);
+  border-radius: 9px;
+  font-size: 10px;
+  font-weight: 700;
+  text-align: center;
+  vertical-align: 1px;
+}
+
+/* Ghost-muted — what SaveDesignButton uses when slate is full */
+.btn--ghost-muted {
+  opacity: 0.8;
+  border-style: dashed;
+}
+
+/* ── Empty state ─────────────────────────────────────── */
+.compare-empty {
+  text-align: center;
+  padding: 50px 30px;
+}
+.compare-empty__icon {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 14px;
+  background: var(--sb-muted);
+  border: 1px solid var(--sb-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--sb-gold);
+}
+.compare-empty h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: var(--sb-text);
+}
+.compare-empty p {
+  max-width: 520px;
+  margin: 0 auto 20px;
+  color: var(--sb-text-dim);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+/* ── Grid — responds to 1/2/3 cards ────────────────── */
+.compare-grid {
+  display: grid;
+  gap: 16px;
+  margin-top: 10px;
+}
+.compare-grid--1 { grid-template-columns: minmax(0, 560px); justify-content: center; }
+.compare-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.compare-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+@media (max-width: 960px) {
+  .compare-grid--2,
+  .compare-grid--3 { grid-template-columns: 1fr; }
+}
+
+/* ── One card ──────────────────────────────────────── */
+.compare-card {
+  background: var(--sb-surface);
+  border: 1px solid var(--sb-border);
+  border-radius: 12px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  box-shadow: 0 1px 2px rgba(20, 33, 46, 0.04);
+}
+
+.compare-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--sb-border);
+}
+.compare-card__letter {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  background: var(--sb-navy);
+  color: var(--sb-cream);
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.compare-card__title-col { flex: 1; min-width: 0; }
+.compare-card__label {
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--sb-text);
+  line-height: 1.3;
+  margin-bottom: 2px;
+}
+.compare-card__date {
+  font-size: 11px;
+  color: var(--sb-text-dim);
+}
+.compare-card__remove {
+  flex: 0 0 26px;
+  width: 26px;
+  height: 26px;
+  border: none;
+  background: transparent;
+  color: var(--sb-text-dim);
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 50%;
+  line-height: 1;
+  transition: all 0.15s ease;
+}
+.compare-card__remove:hover {
+  background: #FCE8E8;
+  color: #B52828;
+}
+
+/* ── Metrics dl ────────────────────────────────────── */
+.compare-card__metrics {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.compare-card__metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 9px 0;
+  border-bottom: 1px dashed var(--sb-border);
+}
+.compare-card__metric:last-child { border-bottom: none; }
+.compare-card__metric dt {
+  font-size: 11.5px;
+  color: var(--sb-text-dim);
+  font-weight: 500;
+}
+.compare-card__metric dd {
+  margin: 0;
+  text-align: end;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+.compare-card__metric-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sb-text);
+  font-variant-numeric: tabular-nums;
+}
+.compare-card__metric--win .compare-card__metric-value {
+  color: var(--sb-gold-dk);
+}
+.compare-card__winner-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  background: #FCF6E5;
+  color: var(--sb-gold-dk);
+  border: 1px solid rgba(200, 147, 46, 0.3);
+  border-radius: 10px;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* ── Sub-sections (components / profile) ───────────── */
+.compare-card__section {
+  background: var(--sb-muted);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.compare-card__section-title {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--sb-oasis);
+  margin-bottom: 6px;
+}
+.compare-card__spec {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+  font-size: 11.5px;
+  gap: 8px;
+}
+.compare-card__spec-label  { color: var(--sb-text-dim); }
+.compare-card__spec-value {
+  color: var(--sb-text);
+  font-weight: 500;
+  text-align: end;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 60%;
+}
+
+.compare-card__footer {
+  margin-top: auto;
+  padding-top: 4px;
+}
+.compare-card__footer .btn { width: 100%; }
