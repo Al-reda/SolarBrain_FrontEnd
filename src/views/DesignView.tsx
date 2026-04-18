@@ -1,10 +1,9 @@
 /**
- * DesignView.tsx — Layer 1 root.
+ * DesignView.tsx — the Designer.
  *
- * Stage A: the facility form is always visible.
- * Stage B: after a design comes back, we append the full results:
- *   sizing requirements → recommendation cards → single-line diagram →
- *   financial KPIs + CAPEX + 10-year ROI chart → "Go to Simulation".
+ * Initial state: compact form fills the screen — no scroll needed.
+ * After a design comes back: form stays collapsed to a summary, and
+ * the results sections expand below it.
  */
 
 import { useApp } from '../store/useApp';
@@ -27,26 +26,16 @@ export function DesignView() {
 
   return (
     <div className="view">
-      <div className="view__intro">
-        <h1 className="view__intro-title">Design your solar system</h1>
-        <p className="view__intro-sub">
-          Tell us about your facility, and we'll size a complete hybrid system —
-          panels, inverter, battery and optional backup — with a 10-year
-          financial projection.
-        </p>
-      </div>
-
-      {/* ── Stage A — the form ─────────────────────────────── */}
-      <section className="card">
-        <h2>1. Facility profile</h2>
+      {/* ── Stage A — compact form (always visible) ─────── */}
+      <section className="form-card">
         <DesignForm />
       </section>
 
-      {/* ── Stage B — results (visible only after a design) ── */}
+      {/* ── Stage B — results (only after a design) ─────── */}
       {systemDesign && (
         <>
           <section className="card">
-            <h2>2. Sizing requirements</h2>
+            <h2>Sizing requirements</h2>
             <div className="profile-grid">
               <Stat label="Region"        value={systemDesign.profile.regionName} />
               <Stat label="GHI"           value={`${systemDesign.profile.ghi} kWh/m²/day`} />
@@ -60,23 +49,23 @@ export function DesignView() {
           </section>
 
           <section className="card">
-            <h2>3. Panel recommendations</h2>
+            <h2>Panel recommendations</h2>
             <PanelCards options={systemDesign.panels} />
           </section>
 
           <section className="card">
-            <h2>4. Inverter recommendations</h2>
+            <h2>Inverter recommendations</h2>
             <InverterCards options={systemDesign.inverters} />
           </section>
 
           <section className="card">
-            <h2>5. Battery recommendations</h2>
+            <h2>Battery recommendations</h2>
             <BatteryCards options={systemDesign.batteries} />
           </section>
 
           {selectedPanel && selectedInverter && selectedBattery && (
             <section className="card">
-              <h2>6. Single-line diagram</h2>
+              <h2>Single-line diagram</h2>
               <SystemDiagram
                 panel={selectedPanel}
                 inverter={selectedInverter}
@@ -88,7 +77,7 @@ export function DesignView() {
           )}
 
           <section className="card">
-            <h2>7. Financials</h2>
+            <h2>Financials</h2>
             <Kpis
               capex={systemDesign.capexBreakdown}
               financials={systemDesign.financials}
@@ -100,9 +89,9 @@ export function DesignView() {
             <RoiChart financials={systemDesign.financials} />
           </section>
 
-          <div className="form-submit">
+          <div className="design-form__submit">
             <button
-              className="btn btn--amber"
+              className="btn btn--amber btn--lg"
               disabled={!canGoToSim}
               onClick={() => dispatch({ type: 'NAVIGATE', view: 'simulation' })}
             >
