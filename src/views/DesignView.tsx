@@ -16,6 +16,7 @@ import {
 import { Kpis }           from '../components/Kpis';
 import { RoiChart }       from '../components/RoiChart';
 import { SystemDiagram }  from '../components/SystemDiagram';
+import { DownloadProposalButton } from '../components/DownloadProposalButton';
 
 export function DesignView() {
   const { t } = useTranslation();
@@ -96,7 +97,8 @@ export function DesignView() {
             <RoiChart financials={systemDesign.financials} />
           </section>
 
-          <div className="design-form__submit">
+          <div className="design-form__submit design-form__submit--row">
+            <DownloadProposalButton />
             <button
               className="btn btn--amber btn--lg"
               disabled={!canGoToSim}

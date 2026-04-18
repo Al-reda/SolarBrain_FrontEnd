@@ -49,7 +49,10 @@ export function RoiChart({ financials }: { financials: FinancialModel }) {
             label={{ value: 'SAR (k)', angle: -90, position: 'insideLeft', fill: '#6B7280', fontSize: 11 }}
           />
           <Tooltip
-            formatter={(v: number) => `${v.toLocaleString(undefined, { maximumFractionDigits: 0 })} SAR`}
+            formatter={(v) => {
+              const n = typeof v === 'number' ? v : Number(v ?? 0);
+              return `${n.toLocaleString(undefined, { maximumFractionDigits: 0 })} SAR`;
+            }}
             labelFormatter={l => `Year ${l}`}
             contentStyle={{ fontSize: 12, borderRadius: 8, border: '0.5px solid #D1D5DB' }}
           />

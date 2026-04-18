@@ -60,9 +60,10 @@ export function HistoryChart({ history }: Props) {
         />
 
         <Tooltip
-          formatter={(v: number, name: string) => {
-            if (name === 'SOC %') return `${v.toFixed(1)}%`;
-            return `${v.toFixed(2)} kW`;
+          formatter={(v, name) => {
+            const n = typeof v === 'number' ? v : Number(v ?? 0);
+            if (name === 'SOC %') return `${n.toFixed(1)}%`;
+            return `${n.toFixed(2)} kW`;
           }}
           contentStyle={{ fontSize: 12, borderRadius: 8, border: '0.5px solid #D1D5DB' }}
         />

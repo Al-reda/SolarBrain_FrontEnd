@@ -1198,3 +1198,30 @@ html[dir="rtl"] .app-header__right { flex-direction: row-reverse; }
   color: var(--sb-text-dim);
   padding: 0 4px;
 }
+
+/* ═════════════════════════════════════════════════════════════════
+   PDF DOWNLOAD BUTTON + action-row variant of form submit
+═════════════════════════════════════════════════════════════════ */
+
+/* Action row at the end of the results — two buttons side by side */
+.design-form__submit--row {
+  justify-content: flex-end;
+  gap: 10px;
+}
+@media (max-width: 640px) {
+  .design-form__submit--row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.pdf-btn-wrap {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Subtle spinner rotation respected by current-color on the SVG */
+.pdf-btn-wrap .btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}

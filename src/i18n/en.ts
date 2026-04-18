@@ -73,6 +73,8 @@ export const en = {
     diagram:          'Single-line diagram',
     financials:       'Financials',
     runSim:           'Run live simulation →',
+    downloadProposal:    'Download proposal (PDF)',
+    downloadingProposal: 'Generating proposal…',
   },
   stat: {
     region:       'Region',

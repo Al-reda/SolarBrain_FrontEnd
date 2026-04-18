@@ -74,6 +74,8 @@ export const ar = {
     diagram:          'مخطط خط مفرد',
     financials:       'الجانب المالي',
     runSim:           'تشغيل المحاكاة المباشرة ←',
+    downloadProposal:    'تنزيل العرض (PDF)',
+    downloadingProposal: 'جارٍ إنشاء العرض…',
   },
   stat: {
     region:       'المنطقة',
