@@ -16,6 +16,7 @@ import {
 import { Kpis }           from '../components/Kpis';
 import { RoiChart }       from '../components/RoiChart';
 import { SystemDiagram }  from '../components/SystemDiagram';
+import { SensitivityPanel } from '../components/SensitivityPanel';
 import { DownloadProposalButton } from '../components/DownloadProposalButton';
 import { SaveDesignButton } from '../components/SaveDesignButton';
 
@@ -96,6 +97,11 @@ export function DesignView() {
 
           <section className="card">
             <RoiChart financials={systemDesign.financials} />
+          </section>
+
+          <section className="card">
+            <h2>{t('sensitivity.title')}</h2>
+            <SensitivityPanel design={systemDesign} />
           </section>
 
           <div className="design-form__submit design-form__submit--row">
