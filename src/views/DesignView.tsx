@@ -7,13 +7,14 @@
  */
 
 import { useApp } from '../store/useApp';
-import { DesignForm }        from '../components/DesignForm';
+import { LandingHero }    from '../components/LandingHero';
+import { DesignForm }     from '../components/DesignForm';
 import {
   BatteryCards, InverterCards, PanelCards,
 } from '../components/ComponentCards';
-import { Kpis }              from '../components/Kpis';
-import { RoiChart }          from '../components/RoiChart';
-import { SystemDiagram }     from '../components/SystemDiagram';
+import { Kpis }           from '../components/Kpis';
+import { RoiChart }       from '../components/RoiChart';
+import { SystemDiagram }  from '../components/SystemDiagram';
 
 export function DesignView() {
   const { state, dispatch } = useApp();
@@ -25,11 +26,15 @@ export function DesignView() {
     !!(systemDesign && selectedPanel && selectedInverter && selectedBattery);
 
   return (
-    <div className="view">
-      {/* ── Stage A — compact form (always visible) ─────── */}
-      <section className="form-card">
-        <DesignForm />
-      </section>
+    <>
+      {/* Cinematic hero — hides itself once a design has been generated */}
+      <LandingHero />
+
+      <div className="view" id="design-form-anchor">
+        {/* ── Stage A — compact form (always visible) ─────── */}
+        <section className="form-card">
+          <DesignForm />
+        </section>
 
       {/* ── Stage B — results (only after a design) ─────── */}
       {systemDesign && (
@@ -100,7 +105,8 @@ export function DesignView() {
           </div>
         </>
       )}
-    </div>
+      </div>
+    </>
   );
 }
 

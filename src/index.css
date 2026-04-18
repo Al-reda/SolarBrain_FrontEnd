@@ -1,30 +1,47 @@
 /* ─────────────────────────────────────────────────────────────────
-   SolarBrain · brand palette + base styles
-   Matches the Python/React version's colors so the demo looks familiar.
+   SolarBrain · Earth-toned premium palette
+   Deep navy + desert sand + muted gold + oasis green.
+   Grounded in Saudi identity without being literal about it.
 ───────────────────────────────────────────────────────────────── */
 
 :root {
-  /* Brand palette */
-  --sb-dark:     #0F1923;   /* header background */
-  --sb-green:    #1D9E75;   /* primary — HYBRID / solar fraction */
-  --sb-amber:    #BA7517;   /* accent — SOLAR_ONLY */
-  --sb-blue:     #185FA5;   /* CHARGE_MODE */
-  --sb-red:      #A32D2D;   /* EMERGENCY */
-  --sb-purple:   #534AB7;   /* BATTERY_BACKUP */
-  --sb-gray:     #6B7280;   /* muted text */
-  --sb-graphite: #374151;   /* GENERATOR_BACKUP */
+  /* Brand palette — primary */
+  --sb-navy:     #0A1520;   /* deepest — landing hero background */
+  --sb-dark:     #14212E;   /* slightly lifted — header, dark panels */
+  --sb-ink:      #1C2B3A;   /* card borders on dark surfaces */
 
-  /* Surfaces */
-  --sb-bg:       #F4F6F8;
+  /* Warm accents (desert + gold) */
+  --sb-sand:     #E2B88F;   /* desert sand — hero type, warm highlights */
+  --sb-gold:     #C8932E;   /* muted gold — primary CTA, active states */
+  --sb-gold-dk:  #A8771F;   /* gold pressed / hover */
+  --sb-cream:    #F5EEE0;   /* cream — light panels, hero sub-bg */
+
+  /* Cool accent — oasis green */
+  --sb-oasis:    #3D6B4E;   /* oasis green — success, save, growth */
+  --sb-oasis-lt: #EAF1EC;   /* oasis tint — light backgrounds */
+
+  /* Mode colors (7-mode brain) — kept for simulation view */
+  --sb-green:    #3D6B4E;   /* was #1D9E75 — now unified with oasis */
+  --sb-amber:    #C8932E;   /* was #BA7517 — now unified with gold */
+  --sb-blue:     #2C5B82;   /* CHARGE_MODE — slightly earthier */
+  --sb-red:      #9A3B3B;   /* EMERGENCY — clay red */
+  --sb-purple:   #574B7E;   /* BATTERY_BACKUP — dusty purple */
+  --sb-gray:     #8B8A85;   /* muted */
+  --sb-graphite: #3A4049;   /* GENERATOR_BACKUP */
+
+  /* Surfaces (light-mode dashboard) */
+  --sb-bg:       #FAF7F1;   /* cream-tinted page bg — warmer than plain gray */
   --sb-surface:  #FFFFFF;
-  --sb-border:   #D1D5DB;
-  --sb-muted:    #F9FAFB;
+  --sb-border:   #E4DFD3;   /* warm beige border */
+  --sb-muted:    #F5F1E8;   /* warm muted fill */
 
   /* Typography */
-  --sb-text:     #111827;
-  --sb-text-dim: #6B7280;
+  --sb-text:     #14212E;   /* navy text on light bg */
+  --sb-text-dim: #6E6B62;   /* warm gray */
+  --sb-text-lt:  #F5EEE0;   /* cream text on dark bg */
+  --sb-text-lt-dim: #9AA6B2;/* dim cream on dark bg */
 
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   line-height: 1.5;
   color: var(--sb-text);
 }
@@ -56,9 +73,10 @@ body {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: var(--sb-dark);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  background: rgba(10, 21, 32, 0.82);
+  backdrop-filter: saturate(140%) blur(10px);
+  -webkit-backdrop-filter: saturate(140%) blur(10px);
+  border-bottom: 1px solid rgba(226, 184, 143, 0.08);
 }
 
 .app-header__inner {
@@ -750,3 +768,254 @@ code {
 }
 
 .season-jump { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+
+/* ═════════════════════════════════════════════════════════════════
+   LANDING HERO — cinematic earth-toned opener
+═════════════════════════════════════════════════════════════════ */
+
+.hero {
+  position: relative;
+  min-height: calc(100vh - 64px);   /* fill viewport minus app header */
+  padding: 0 24px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--sb-text-lt);
+}
+
+/* ── Background layers ─────────────────────────────────────── */
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  background: var(--sb-navy);
+  z-index: -1;
+}
+
+/* Subtle geometric grid — 8-pointed-star motif repeated very faintly */
+.hero__bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(200, 147, 46, 0.08) 1px, transparent 0);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse at 50% 50%, black 0%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 0%, transparent 75%);
+}
+
+/* Warm gold glow anchored behind the headline */
+.hero__bg-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 900px;
+  height: 900px;
+  transform: translate(-50%, -55%);
+  background: radial-gradient(
+    circle,
+    rgba(200, 147, 46, 0.22) 0%,
+    rgba(200, 147, 46, 0.08) 35%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.hero__bg-sun {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 560px;
+  height: 560px;
+  transform: translate(-50%, -60%);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.hero__bg-sun svg { width: 100%; height: 100%; }
+
+/* ── Hero content ──────────────────────────────────────────── */
+
+.hero__inner {
+  position: relative;
+  max-width: 920px;
+  width: 100%;
+  text-align: center;
+  padding-top: 60px;
+}
+
+.hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 16px;
+  background: rgba(200, 147, 46, 0.08);
+  border: 1px solid rgba(200, 147, 46, 0.24);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--sb-sand);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.hero__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sb-gold);
+  box-shadow: 0 0 8px var(--sb-gold);
+  animation: sb-pulse 2.4s ease-in-out infinite;
+}
+@keyframes sb-pulse {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+
+.hero__title {
+  font-size: clamp(44px, 8vw, 96px);
+  line-height: 1.02;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--sb-text-lt);
+  margin: 0 0 22px;
+}
+.hero__title--accent {
+  color: var(--sb-sand);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.hero__sub {
+  max-width: 640px;
+  margin: 0 auto 36px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--sb-text-lt-dim);
+}
+
+/* ── Hero CTAs ─────────────────────────────────────────────── */
+
+.hero__cta-row {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 72px;
+}
+
+.btn-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 26px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  border: 1px solid transparent;
+  transition: all 0.18s ease;
+  letter-spacing: -0.005em;
+}
+
+.btn-cta--gold {
+  background: var(--sb-gold);
+  color: var(--sb-navy);
+  box-shadow:
+    0 0 0 0 rgba(200, 147, 46, 0.0),
+    0 8px 20px rgba(200, 147, 46, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+.btn-cta--gold:hover {
+  background: #D9A541;
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 3px rgba(200, 147, 46, 0.16),
+    0 10px 24px rgba(200, 147, 46, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.btn-cta--ghost {
+  background: transparent;
+  color: var(--sb-sand);
+  border-color: rgba(226, 184, 143, 0.28);
+}
+.btn-cta--ghost:hover {
+  background: rgba(226, 184, 143, 0.08);
+  border-color: rgba(226, 184, 143, 0.45);
+  color: var(--sb-text-lt);
+}
+
+/* ── Stat strip ─────────────────────────────────────────────── */
+
+.hero__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  padding: 32px 0 0;
+  border-top: 1px solid rgba(226, 184, 143, 0.14);
+  max-width: 760px;
+  margin: 0 auto;
+}
+@media (max-width: 720px) {
+  .hero__stats { grid-template-columns: 1fr; gap: 24px; text-align: center; }
+}
+
+.hero__stat-value {
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 300;
+  letter-spacing: -0.025em;
+  color: var(--sb-sand);
+  line-height: 1;
+}
+
+.hero__stat-unit {
+  font-size: 11px;
+  color: var(--sb-text-lt-dim);
+  margin-top: 8px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.hero__stat-label {
+  font-size: 13px;
+  color: var(--sb-text-lt);
+  margin-top: 4px;
+  opacity: 0.8;
+}
+
+/* ── Scroll cue ─────────────────────────────────────────────── */
+
+.hero__scroll-cue {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid rgba(226, 184, 143, 0.2);
+  border-radius: 100px;
+  color: var(--sb-text-lt-dim);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.18s ease;
+  animation: sb-float 2.4s ease-in-out infinite;
+}
+.hero__scroll-cue:hover {
+  background: rgba(226, 184, 143, 0.06);
+  border-color: rgba(226, 184, 143, 0.45);
+  color: var(--sb-sand);
+}
+@keyframes sb-float {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(4px); }
+}
