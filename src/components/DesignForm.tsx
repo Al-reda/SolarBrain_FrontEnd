@@ -15,25 +15,29 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useApp } from '../store/useApp';
 import { submitDesign } from '../api/client';
+import { SaudiMap } from './SaudiMap';
+import { defaultLocation } from './SaudiMap.data';
+import type { SaudiLocation } from './SaudiMap.data';
 import type {
   FacilityProfile,
   GridScenario,
-  RegionKey,
   UserType,
 } from '../types/api';
 
 const USER_TYPE_KEYS: UserType[] = ['facility', 'farm', 'residential'];
-const REGION_GHI: Record<RegionKey, number> = {
-  eastern: 5.9,
-  central: 6.2,
-  western: 5.8,
-};
 
 export function DesignForm() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { state, dispatch } = useApp();
   const form = state.formValues;
   const [localErr, setLocalErr] = useState<string | null>(null);
+  const [location, setLocation] = useState<SaudiLocation>(() => defaultLocation(i18n.language));
+
+  function onLocationChange(loc: SaudiLocation) {
+    setLocation(loc);
+    // Keep the backend-compatible `region` key in sync with the map pick.
+    dispatch({ type: 'SET_FORM', form: { region: loc.region } });
+  }
 
   function update<K extends keyof FacilityProfile>(key: K, value: FacilityProfile[K]) {
     dispatch({ type: 'SET_FORM', form: { [key]: value } as Partial<FacilityProfile> });
@@ -92,43 +96,32 @@ export function DesignForm() {
         </div>
       </Field>
 
-      {/* Row 2 — Region + Grid */}
-      <div className="row row-2">
-        <Field label={t('form.regionLabel')}>
-          <select
-            className="input"
-            value={form.region}
-            onChange={e => update('region', e.target.value as RegionKey)}
-          >
-            {(['eastern', 'central', 'western'] as RegionKey[]).map(r => (
-              <option key={r} value={r}>
-                {t(`region.${r}`)} · GHI {REGION_GHI[r]}
-              </option>
-            ))}
-          </select>
-        </Field>
+      {/* Row 2 — Saudi Arabia map (replaces region dropdown) */}
+      <Field label={t('map.pickLocation')}>
+        <SaudiMap value={location} onChange={onLocationChange} />
+      </Field>
 
-        <Field label={t('form.gridLabel')}>
-          <div className="seg seg--compact">
-            <button
-              type="button"
-              className={`seg-pill ${form.gridScenario === 'on_grid' ? 'seg-pill--on' : ''}`}
-              onClick={() => onGridScenarioChange('on_grid')}
-            >
-              {t('form.onGrid')}
-            </button>
-            <button
-              type="button"
-              className={`seg-pill ${form.gridScenario === 'off_grid' ? 'seg-pill--on' : ''}`}
-              onClick={() => onGridScenarioChange('off_grid')}
-              disabled={isResidential}
-              title={isResidential ? t('form.residentialMustBeOnGrid') : undefined}
-            >
-              {t('form.offGrid')}
-            </button>
-          </div>
-        </Field>
-      </div>
+      {/* Row 2b — Grid scenario (kept compact now that region is on the map) */}
+      <Field label={t('form.gridLabel')}>
+        <div className="seg seg--compact">
+          <button
+            type="button"
+            className={`seg-pill ${form.gridScenario === 'on_grid' ? 'seg-pill--on' : ''}`}
+            onClick={() => onGridScenarioChange('on_grid')}
+          >
+            {t('form.onGrid')}
+          </button>
+          <button
+            type="button"
+            className={`seg-pill ${form.gridScenario === 'off_grid' ? 'seg-pill--on' : ''}`}
+            onClick={() => onGridScenarioChange('off_grid')}
+            disabled={isResidential}
+            title={isResidential ? t('form.residentialMustBeOnGrid') : undefined}
+          >
+            {t('form.offGrid')}
+          </button>
+        </div>
+      </Field>
 
       {/* Row 3 — Bill + primary user-type metric + critical % */}
       <div className="row row-3">
