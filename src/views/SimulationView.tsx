@@ -25,21 +25,29 @@ export function SimulationView() {
   // Kick off polling whenever simRunning is true
   useSimPolling();
 
-  // No design loaded → send the user back to Layer 1
+  // No design loaded → send the user back to the designer
   if (!systemDesign) {
     return (
       <div className="view">
-        <header className="view__header">
-          <h1>SolarBrain · Simulation <span className="tag tag--sim">Layer 2</span></h1>
-        </header>
+        <div className="view__intro">
+          <h1 className="view__intro-title">Live simulation</h1>
+          <p className="view__intro-sub">
+            You need a system to simulate. Head over to the designer, generate a
+            configuration for your facility, then come back here to watch it run.
+          </p>
+        </div>
         <section className="card">
-          <h2>No design loaded</h2>
-          <p>Submit a facility profile in Layer 1 first so the brain has something to run.</p>
+          <h2>No design loaded yet</h2>
+          <p>
+            Start by describing your facility — we'll size the system in about a
+            second, and this screen will stream live data from the decision
+            engine once you're ready.
+          </p>
           <button
-            className="btn btn--ghost"
+            className="btn btn--green"
             onClick={() => dispatch({ type: 'NAVIGATE', view: 'design' })}
           >
-            ← Back to Designer
+            Go to designer
           </button>
         </section>
       </div>
@@ -48,23 +56,22 @@ export function SimulationView() {
 
   return (
     <div className="view">
-      <header className="view__header view__header--sim">
-        <h1>
-          SolarBrain · Simulation
-          <span className="tag tag--sim">Layer 2</span>
-        </h1>
-        <p className="view__sub">
-          {systemDesign.profile.regionName} · {systemDesign.profile.gridScenario.replace('_', '-')} ·
-          {' '}{systemDesign.profile.userType}
-        </p>
+      <div className="view__intro view__intro--row">
+        <div>
+          <h1 className="view__intro-title">Live simulation</h1>
+          <p className="view__intro-sub">
+            Running on your <b>{prettyUserType(systemDesign.profile.userType)}</b>
+            {' '}system in <b>{systemDesign.profile.regionName}</b>
+            {' '}({systemDesign.profile.gridScenario === 'on_grid' ? 'on-grid' : 'off-grid'}).
+          </p>
+        </div>
         <button
           className="btn btn--ghost"
-          style={{ marginLeft: 'auto', position: 'absolute', top: 18, right: 24 }}
           onClick={() => dispatch({ type: 'NAVIGATE', view: 'design' })}
         >
-          ← Back to Designer
+          ← Back to design
         </button>
-      </header>
+      </div>
 
       {/* Time strip + controls */}
       <section className="card">
@@ -106,12 +113,20 @@ export function SimulationView() {
       </section>
 
       <section className="card">
-        <h2>Scenario injection</h2>
+        <h2>Stress tests</h2>
         <p className="muted" style={{ fontSize: 12, marginBottom: 12 }}>
-          Click a card to stress-test the brain live. Click again to restore normal conditions.
+          Trigger a real-world event and watch the system adapt. Click again to
+          restore normal conditions.
         </p>
         <ScenarioPanel />
       </section>
     </div>
   );
+}
+
+function prettyUserType(t: string): string {
+  if (t === 'facility')    return 'industrial facility';
+  if (t === 'farm')        return 'agricultural farm';
+  if (t === 'residential') return 'residential';
+  return t;
 }

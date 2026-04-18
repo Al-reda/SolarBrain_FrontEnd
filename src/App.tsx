@@ -1,14 +1,13 @@
 /**
- * App.tsx — root. Wraps everything in AppProvider and switches between
- * the Design (Layer 1) and Simulation (Layer 2) views based on nav state.
- *
- * SimulationView is lazy-loaded: Recharts + React Flow only enter the
- * bundle when the user navigates there. Cuts the initial JS payload by ~60%.
+ * App.tsx — app root. Renders a persistent top header + the active view.
+ * SimulationView is lazy-loaded so its chart + diagram libraries stay out of
+ * the initial bundle until the user actually opens it.
  */
 
 import { Suspense, lazy } from 'react';
 import { AppProvider } from './store/AppContext';
 import { useApp } from './store/useApp';
+import { AppHeader } from './components/AppHeader';
 import { DesignView } from './views/DesignView';
 
 const SimulationView = lazy(() =>
@@ -18,12 +17,19 @@ const SimulationView = lazy(() =>
 function Shell() {
   const { state } = useApp();
 
-  if (state.view === 'design') return <DesignView />;
-
   return (
-    <Suspense fallback={<ViewLoading />}>
-      <SimulationView />
-    </Suspense>
+    <>
+      <AppHeader />
+      <main className="app-main">
+        {state.view === 'design' ? (
+          <DesignView />
+        ) : (
+          <Suspense fallback={<ViewLoading />}>
+            <SimulationView />
+          </Suspense>
+        )}
+      </main>
+    </>
   );
 }
 
@@ -31,7 +37,7 @@ function ViewLoading() {
   return (
     <div className="view">
       <div className="card" style={{ textAlign: 'center', padding: 60 }}>
-        <div className="muted">Loading simulation…</div>
+        <div className="muted">Loading…</div>
       </div>
     </div>
   );

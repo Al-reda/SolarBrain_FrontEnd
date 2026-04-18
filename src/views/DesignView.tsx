@@ -27,15 +27,14 @@ export function DesignView() {
 
   return (
     <div className="view">
-      <header className="view__header">
-        <h1>
-          SolarBrain · Designer
-          <span className="tag">Layer 1</span>
-        </h1>
-        <p className="view__sub">
-          Intelligent Hybrid Energy Management System — .NET 9 · React TS
+      <div className="view__intro">
+        <h1 className="view__intro-title">Design your solar system</h1>
+        <p className="view__intro-sub">
+          Tell us about your facility, and we'll size a complete hybrid system —
+          panels, inverter, battery and optional backup — with a 10-year
+          financial projection.
         </p>
-      </header>
+      </div>
 
       {/* ── Stage A — the form ─────────────────────────────── */}
       <section className="card">
@@ -107,7 +106,7 @@ export function DesignView() {
               disabled={!canGoToSim}
               onClick={() => dispatch({ type: 'NAVIGATE', view: 'simulation' })}
             >
-              → Run simulation (Layer 2)
+              Run live simulation →
             </button>
           </div>
         </>

@@ -40,47 +40,123 @@ body {
 
 /* ── Layout ────────────────────────────────────────────────────── */
 
+.app-main {
+  padding-top: 16px;
+}
+
 .view {
-  max-width: 980px;
+  max-width: 1080px;
   margin: 0 auto;
-  padding: 24px 16px;
+  padding: 24px 20px 80px;
 }
 
-.view__header {
+/* ── Persistent app header ─────────────────────────────────────── */
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   background: var(--sb-dark);
-  color: white;
-  border-radius: 12px;
-  padding: 20px 24px;
-  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-.view__header h1 {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 600;
+.app-header__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 24px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 24px;
 }
 
-.view__sub {
-  margin: 4px 0 0 0;
-  font-size: 13px;
-  color: #9FE1CB;
+.app-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
 }
 
-.tag {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  background: var(--sb-green);
+.app-header__logo {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.app-header__title-group { line-height: 1.15; }
+
+.app-header__title {
   color: white;
-  padding: 3px 8px;
-  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
-.tag--sim { background: var(--sb-amber); }
+.app-header__tagline {
+  color: #9AA6B2;
+  font-size: 12px;
+  font-weight: 400;
+  margin-top: 1px;
+}
+
+.app-header__nav {
+  display: flex;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 4px;
+}
+
+.nav-tab {
+  background: transparent;
+  border: none;
+  color: #9AA6B2;
+  padding: 7px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 7px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.nav-tab:hover:not(:disabled) { color: white; }
+.nav-tab--on {
+  background: white;
+  color: var(--sb-dark);
+  font-weight: 600;
+}
+.nav-tab:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Per-view intro block (replaces the old loud dark header) ─── */
+
+.view__intro {
+  margin-bottom: 24px;
+}
+.view__intro--row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+.view__intro-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--sb-text);
+}
+.view__intro-sub {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--sb-text-dim);
+  max-width: 620px;
+  line-height: 1.5;
+}
 
 /* ── Cards ─────────────────────────────────────────────────────── */
 
@@ -539,8 +615,6 @@ code {
 }
 
 /* ── Simulation — time context strip ──────────────────────────── */
-
-.view__header--sim { position: relative; }
 
 .time-ctx {
   display: flex;
