@@ -13,10 +13,14 @@
  */
 
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { useApp } from '../store/useApp';
 
 export function LandingHero() {
+  const { t, i18n } = useTranslation();
   const { state } = useApp();
+  const isArabic = i18n.language === 'ar';
+
   // Hide the hero once a design has been generated so returning users
   // don't see marketing every time
   if (state.systemDesign) return null;
@@ -40,28 +44,27 @@ export function LandingHero() {
       >
         <div className="hero__eyebrow">
           <span className="hero__dot" />
-          Built for Vision 2030
+          {t('hero.eyebrow')}
         </div>
 
-        <h1 className="hero__title">
-          Power the Kingdom<br />
-          <span className="hero__title--accent">with the sun.</span>
+        <h1 className={`hero__title ${isArabic ? 'hero__title--ar' : ''}`}>
+          {t('hero.titleLine1')}<br />
+          <span className="hero__title--accent">{t('hero.titleLine2')}</span>
         </h1>
 
         <p className="hero__sub">
-          Size, simulate, and deploy hybrid solar systems tuned for Saudi Arabia —
-          from a Riyadh rooftop to a Jubail factory. All in one cockpit.
+          {t('hero.sub')}
         </p>
 
         <div className="hero__cta-row">
           <button className="btn-cta btn-cta--gold" onClick={scrollToForm}>
-            Start designing
+            {t('hero.ctaPrimary')}
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
               <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
           <button className="btn-cta btn-cta--ghost" onClick={scrollToForm}>
-            See how it works
+            {t('hero.ctaSecondary')}
           </button>
         </div>
 
@@ -76,7 +79,7 @@ export function LandingHero() {
         transition={{ delay: 1.2, duration: 0.6 }}
         aria-label="Scroll to form"
       >
-        <span>Begin</span>
+        <span>{t('hero.scrollCue')}</span>
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
           <path d="M7 2v10M3 8l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
@@ -173,10 +176,11 @@ function SunSvg() {
  * Makes the hero earn its screen real estate with substance, not just style.
  */
 function StatStrip() {
+  const { t } = useTranslation();
   const stats = [
-    { value: '6.2',  unit: 'kWh / m² / day', label: 'Saudi sun intensity' },
-    { value: '2.4',  unit: '% of grid today', label: 'Renewable share' },
-    { value: '50',   unit: '% target by 2030', label: 'Vision 2030 goal' },
+    { value: t('heroStats.ghiValue'), unit: t('heroStats.ghiUnit'), label: t('heroStats.ghiLabel') },
+    { value: t('heroStats.renValue'), unit: t('heroStats.renUnit'), label: t('heroStats.renLabel') },
+    { value: t('heroStats.tgtValue'), unit: t('heroStats.tgtUnit'), label: t('heroStats.tgtLabel') },
   ];
 
   return (

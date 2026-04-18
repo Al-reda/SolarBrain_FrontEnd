@@ -1,5 +1,5 @@
 /**
- * DesignForm.tsx — compact single-screen form.
+ * DesignForm.tsx — compact single-screen form, with i18n.
  *
  * Grid layout:
  *   Row 1 (full width)           User type selector (3 segmented pills)
@@ -12,6 +12,7 @@
  */
 
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useApp } from '../store/useApp';
 import { submitDesign } from '../api/client';
 import type {
@@ -21,19 +22,15 @@ import type {
   UserType,
 } from '../types/api';
 
-const USER_TYPES: { value: UserType; label: string }[] = [
-  { value: 'facility',    label: 'Industrial' },
-  { value: 'farm',        label: 'Farm' },
-  { value: 'residential', label: 'Residential' },
-];
-
-const REGIONS: { value: RegionKey; label: string; ghi: number }[] = [
-  { value: 'eastern', label: 'Eastern',  ghi: 5.9 },
-  { value: 'central', label: 'Central',  ghi: 6.2 },
-  { value: 'western', label: 'Western',  ghi: 5.8 },
-];
+const USER_TYPE_KEYS: UserType[] = ['facility', 'farm', 'residential'];
+const REGION_GHI: Record<RegionKey, number> = {
+  eastern: 5.9,
+  central: 6.2,
+  western: 5.8,
+};
 
 export function DesignForm() {
+  const { t } = useTranslation();
   const { state, dispatch } = useApp();
   const form = state.formValues;
   const [localErr, setLocalErr] = useState<string | null>(null);
@@ -61,7 +58,7 @@ export function DesignForm() {
     e.preventDefault();
     setLocalErr(null);
     if (!form.monthlyBillSar || form.monthlyBillSar < 100) {
-      setLocalErr('Monthly bill must be at least 100 SAR.');
+      setLocalErr(t('form.billTooLow'));
       return;
     }
     try {
@@ -69,7 +66,7 @@ export function DesignForm() {
       const resp = await submitDesign(form);
       dispatch({ type: 'DESIGN_SUCCESS', design: resp.systemDesign });
     } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Unknown error — is the API running?';
+      const msg = err instanceof Error ? err.message : t('form.apiUnreachable');
       dispatch({ type: 'DESIGN_ERROR', error: msg });
     }
   }
@@ -80,16 +77,16 @@ export function DesignForm() {
   return (
     <form onSubmit={onSubmit} className="design-form">
       {/* Row 1 — User type pills */}
-      <Field label="What are you designing?">
+      <Field label={t('form.userTypeLabel')}>
         <div className="seg">
-          {USER_TYPES.map(u => (
+          {USER_TYPE_KEYS.map(ut => (
             <button
-              key={u.value}
+              key={ut}
               type="button"
-              className={`seg-pill ${form.userType === u.value ? 'seg-pill--on' : ''}`}
-              onClick={() => onUserTypeChange(u.value)}
+              className={`seg-pill ${form.userType === ut ? 'seg-pill--on' : ''}`}
+              onClick={() => onUserTypeChange(ut)}
             >
-              {u.label}
+              {t(`userType.${ut}`)}
             </button>
           ))}
         </div>
@@ -97,37 +94,37 @@ export function DesignForm() {
 
       {/* Row 2 — Region + Grid */}
       <div className="row row-2">
-        <Field label="Region">
+        <Field label={t('form.regionLabel')}>
           <select
             className="input"
             value={form.region}
             onChange={e => update('region', e.target.value as RegionKey)}
           >
-            {REGIONS.map(r => (
-              <option key={r.value} value={r.value}>
-                {r.label} · GHI {r.ghi}
+            {(['eastern', 'central', 'western'] as RegionKey[]).map(r => (
+              <option key={r} value={r}>
+                {t(`region.${r}`)} · GHI {REGION_GHI[r]}
               </option>
             ))}
           </select>
         </Field>
 
-        <Field label="Grid">
+        <Field label={t('form.gridLabel')}>
           <div className="seg seg--compact">
             <button
               type="button"
               className={`seg-pill ${form.gridScenario === 'on_grid' ? 'seg-pill--on' : ''}`}
               onClick={() => onGridScenarioChange('on_grid')}
             >
-              On-grid
+              {t('form.onGrid')}
             </button>
             <button
               type="button"
               className={`seg-pill ${form.gridScenario === 'off_grid' ? 'seg-pill--on' : ''}`}
               onClick={() => onGridScenarioChange('off_grid')}
               disabled={isResidential}
-              title={isResidential ? 'Residential must be on-grid' : undefined}
+              title={isResidential ? t('form.residentialMustBeOnGrid') : undefined}
             >
-              Off-grid
+              {t('form.offGrid')}
             </button>
           </div>
         </Field>
@@ -135,7 +132,7 @@ export function DesignForm() {
 
       {/* Row 3 — Bill + primary user-type metric + critical % */}
       <div className="row row-3">
-        <Field label="Monthly bill (SAR)">
+        <Field label={t('form.monthlyBillLabel')}>
           <input
             className="input"
             type="number" min={100} step={100}
@@ -145,7 +142,7 @@ export function DesignForm() {
         </Field>
 
         {form.userType === 'facility' && (
-          <Field label="Peak load (kW)">
+          <Field label={t('form.peakLoadLabel')}>
             <input
               className="input"
               type="number" min={5} step={5}
@@ -155,7 +152,7 @@ export function DesignForm() {
           </Field>
         )}
         {form.userType === 'farm' && (
-          <Field label="Pump power (kW)">
+          <Field label={t('form.pumpPowerLabel')}>
             <input
               className="input"
               type="number" min={1} step={1}
@@ -165,7 +162,7 @@ export function DesignForm() {
           </Field>
         )}
         {form.userType === 'residential' && (
-          <Field label="AC units">
+          <Field label={t('form.acUnitsLabel')}>
             <input
               className="input"
               type="number" min={0} max={20}
@@ -175,7 +172,7 @@ export function DesignForm() {
           </Field>
         )}
 
-        <Field label="Critical load %">
+        <Field label={t('form.criticalPctLabel')}>
           <input
             className="input"
             type="number" min={5} max={80} step={5}
@@ -188,7 +185,7 @@ export function DesignForm() {
       {/* Row 4 — Secondary user-type metric + optional generator */}
       <div className="row row-2">
         {form.userType === 'facility' && (
-          <Field label="Operating hrs / day">
+          <Field label={t('form.operatingHrsLabel')}>
             <input
               className="input"
               type="number" min={1} max={24}
@@ -198,7 +195,7 @@ export function DesignForm() {
           </Field>
         )}
         {form.userType === 'farm' && (
-          <Field label="Pump hrs / day">
+          <Field label={t('form.pumpHrsLabel')}>
             <input
               className="input"
               type="number" min={1} max={24}
@@ -208,7 +205,7 @@ export function DesignForm() {
           </Field>
         )}
         {form.userType === 'residential' && (
-          <Field label="Roof area (m²)">
+          <Field label={t('form.roofAreaLabel')}>
             <input
               className="input"
               type="number" min={10} step={10}
@@ -219,14 +216,14 @@ export function DesignForm() {
         )}
 
         {offGrid && !isResidential && (
-          <Field label="Backup generator">
+          <Field label={t('form.genLabel')}>
             <label className="inline-check">
               <input
                 type="checkbox"
                 checked={form.hasGenerator ?? false}
                 onChange={e => update('hasGenerator', e.target.checked)}
               />
-              <span>Include diesel generator</span>
+              <span>{t('form.genCheckbox')}</span>
             </label>
           </Field>
         )}
@@ -241,7 +238,7 @@ export function DesignForm() {
           className="btn btn--green btn--lg"
           disabled={state.designLoading}
         >
-          {state.designLoading ? 'Sizing system…' : 'Generate system design'}
+          {state.designLoading ? t('form.submitting') : t('form.submit')}
         </button>
       </div>
     </form>

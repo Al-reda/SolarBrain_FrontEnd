@@ -6,6 +6,7 @@
  * the results sections expand below it.
  */
 
+import { useTranslation } from 'react-i18next';
 import { useApp } from '../store/useApp';
 import { LandingHero }    from '../components/LandingHero';
 import { DesignForm }     from '../components/DesignForm';
@@ -17,6 +18,7 @@ import { RoiChart }       from '../components/RoiChart';
 import { SystemDiagram }  from '../components/SystemDiagram';
 
 export function DesignView() {
+  const { t } = useTranslation();
   const { state, dispatch } = useApp();
   const {
     systemDesign, selectedPanel, selectedInverter, selectedBattery,
@@ -40,37 +42,37 @@ export function DesignView() {
       {systemDesign && (
         <>
           <section className="card">
-            <h2>Sizing requirements</h2>
+            <h2>{t('results.sizingReqs')}</h2>
             <div className="profile-grid">
-              <Stat label="Region"        value={systemDesign.profile.regionName} />
-              <Stat label="GHI"           value={`${systemDesign.profile.ghi} kWh/m²/day`} />
-              <Stat label="Peak load"     value={`${systemDesign.profile.peakLoadKw} kW`} />
-              <Stat label="Daily load"    value={`${systemDesign.profile.dailyLoadKwh} kWh`} />
-              <Stat label="Tier"          value={`Tier ${systemDesign.profile.tier}`} />
-              <Stat label="PV required"   value={`${systemDesign.requirements.pvKwpRequired} kWp`} />
-              <Stat label="Battery req."  value={`${systemDesign.requirements.batteryKwhRequired} kWh`} />
-              <Stat label="Inverter req." value={`${systemDesign.requirements.inverterKwRequired} kW`} />
+              <Stat label={t('stat.region')}      value={systemDesign.profile.regionName} />
+              <Stat label={t('stat.ghi')}         value={`${systemDesign.profile.ghi} kWh/m²/day`} />
+              <Stat label={t('stat.peakLoad')}    value={`${systemDesign.profile.peakLoadKw} kW`} />
+              <Stat label={t('stat.dailyLoad')}   value={`${systemDesign.profile.dailyLoadKwh} kWh`} />
+              <Stat label={t('stat.tier')}        value={`Tier ${systemDesign.profile.tier}`} />
+              <Stat label={t('stat.pvRequired')}  value={`${systemDesign.requirements.pvKwpRequired} kWp`} />
+              <Stat label={t('stat.batteryReq')}  value={`${systemDesign.requirements.batteryKwhRequired} kWh`} />
+              <Stat label={t('stat.inverterReq')} value={`${systemDesign.requirements.inverterKwRequired} kW`} />
             </div>
           </section>
 
           <section className="card">
-            <h2>Panel recommendations</h2>
+            <h2>{t('results.panelRecs')}</h2>
             <PanelCards options={systemDesign.panels} />
           </section>
 
           <section className="card">
-            <h2>Inverter recommendations</h2>
+            <h2>{t('results.inverterRecs')}</h2>
             <InverterCards options={systemDesign.inverters} />
           </section>
 
           <section className="card">
-            <h2>Battery recommendations</h2>
+            <h2>{t('results.batteryRecs')}</h2>
             <BatteryCards options={systemDesign.batteries} />
           </section>
 
           {selectedPanel && selectedInverter && selectedBattery && (
             <section className="card">
-              <h2>Single-line diagram</h2>
+              <h2>{t('results.diagram')}</h2>
               <SystemDiagram
                 panel={selectedPanel}
                 inverter={selectedInverter}
@@ -82,7 +84,7 @@ export function DesignView() {
           )}
 
           <section className="card">
-            <h2>Financials</h2>
+            <h2>{t('results.financials')}</h2>
             <Kpis
               capex={systemDesign.capexBreakdown}
               financials={systemDesign.financials}
@@ -100,7 +102,7 @@ export function DesignView() {
               disabled={!canGoToSim}
               onClick={() => dispatch({ type: 'NAVIGATE', view: 'simulation' })}
             >
-              Run live simulation →
+              {t('results.runSim')}
             </button>
           </div>
         </>
