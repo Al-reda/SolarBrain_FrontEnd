@@ -13,6 +13,7 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 import { useApp } from '../store/useApp';
 import { submitDesign } from '../api/client';
 import { SaudiMap } from './SaudiMap';
@@ -70,7 +71,30 @@ export function DesignForm() {
       const resp = await submitDesign(form);
       dispatch({ type: 'DESIGN_SUCCESS', design: resp.systemDesign });
     } catch (err) {
-      const msg = err instanceof Error ? err.message : t('form.apiUnreachable');
+      // Categorise the error to give the user a helpful message.
+      // "Network Error" from raw axios is unfriendly — detect the specific case
+      // where the backend can't be reached and show actionable troubleshooting.
+      let msg: string;
+      if (axios.isAxiosError(err)) {
+        if (!err.response) {
+          // No HTTP response at all → backend down, DNS, CORS-blocked-preflight, etc.
+          msg = t('form.apiUnreachable');
+        } else if (err.response.status >= 500) {
+          msg = t('form.serverError', { code: err.response.status });
+        } else if (err.response.status === 400) {
+          // Server-validated bad input — surface its message if present
+          const serverMsg =
+            (err.response.data as { errors?: Record<string, string[]>; title?: string; detail?: string } | undefined);
+          const firstField = serverMsg?.errors && Object.values(serverMsg.errors)[0]?.[0];
+          msg = firstField ?? serverMsg?.detail ?? serverMsg?.title ?? t('form.badRequest');
+        } else {
+          msg = `${err.response.status} ${err.response.statusText || ''}`.trim();
+        }
+      } else if (err instanceof Error) {
+        msg = err.message;
+      } else {
+        msg = t('form.apiUnreachable');
+      }
       dispatch({ type: 'DESIGN_ERROR', error: msg });
     }
   }

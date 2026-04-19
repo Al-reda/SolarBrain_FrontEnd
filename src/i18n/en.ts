@@ -50,7 +50,9 @@ export const en = {
     submit:           'Generate system design',
     submitting:       'Sizing system…',
     billTooLow:       'Monthly bill must be at least 100 SAR.',
-    apiUnreachable:   'Unknown error — is the API running?',
+    apiUnreachable:   "Can't reach the backend. Make sure the API is running at localhost:5099, then try again.",
+    serverError:      'Server error ({{code}}). Please try again in a moment.',
+    badRequest:       'Something was wrong with the form. Please review and try again.',
   },
   userType: {
     facility:    'Industrial',

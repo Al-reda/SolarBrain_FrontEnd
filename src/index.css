@@ -57,9 +57,12 @@ body {
 
 /* ── Layout ────────────────────────────────────────────────────── */
 
-.app-main {
-  padding-top: 16px;
-}
+/*
+ * No top padding on the main container — the landing hero is full-bleed
+ * navy and needs to flush up against the (translucent-navy) sticky header.
+ * Non-hero views use .view which brings its own 24px top padding.
+ */
+.app-main { /* no padding */ }
 
 .view {
   max-width: 1080px;
@@ -73,9 +76,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(10, 21, 32, 0.82);
-  backdrop-filter: saturate(140%) blur(10px);
-  -webkit-backdrop-filter: saturate(140%) blur(10px);
+  background: var(--sb-navy);
   border-bottom: 1px solid rgba(226, 184, 143, 0.08);
 }
 
@@ -988,14 +989,19 @@ code {
 
 /* ── Scroll cue ─────────────────────────────────────────────── */
 
+/* ── Scroll cue ─────────────────────────────────────────────── */
+
+/*
+ * In normal flex flow below the stats strip (NOT absolute-positioned)
+ * so it can never overlap the stats text on short viewports.
+ * An earlier absolute version at bottom:28px overlapped the "Renewable
+ * share" stat on constrained screens — switching to in-flow fixes it.
+ */
 .hero__scroll-cue {
-  position: absolute;
-  bottom: 28px;
-  left: 50%;
-  transform: translateX(-50%);
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  margin: auto auto 24px;          /* auto top pushes to flex-end; 24px bottom gap */
   padding: 8px 16px;
   background: transparent;
   border: 1px solid rgba(226, 184, 143, 0.2);
@@ -1016,8 +1022,8 @@ code {
   color: var(--sb-sand);
 }
 @keyframes sb-float {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50%      { transform: translateX(-50%) translateY(4px); }
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(4px); }
 }
 
 /* ═════════════════════════════════════════════════════════════════

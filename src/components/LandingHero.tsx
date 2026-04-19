@@ -71,6 +71,9 @@ export function LandingHero() {
         <StatStrip />
       </motion.div>
 
+      {/* Scroll cue is a DIRECT child of .hero (not inside .hero__inner)
+          so it can sit at the bottom via margin-top: auto without
+          colliding with the stat strip on short viewports. */}
       <motion.button
         className="hero__scroll-cue"
         onClick={scrollToForm}
