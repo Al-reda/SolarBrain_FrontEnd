@@ -7,6 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import { useMemo } from 'react';
 import { useApp } from '../store/useApp';
 import { LandingHero }    from '../components/LandingHero';
 import { DesignForm }     from '../components/DesignForm';
@@ -19,6 +20,7 @@ import { SystemDiagram }  from '../components/SystemDiagram';
 import { SensitivityPanel } from '../components/SensitivityPanel';
 import { DownloadProposalButton } from '../components/DownloadProposalButton';
 import { SaveDesignButton } from '../components/SaveDesignButton';
+import { recalcDesign } from '../lib/recalcDesign';
 
 export function DesignView() {
   const { t } = useTranslation();
@@ -29,6 +31,16 @@ export function DesignView() {
 
   const canGoToSim =
     !!(systemDesign && selectedPanel && selectedInverter && selectedBattery);
+
+  // Live recalculation — updates instantly when user swaps a component
+  const adjusted = useMemo(() => {
+    if (!systemDesign || !selectedPanel || !selectedInverter || !selectedBattery) return null;
+    return recalcDesign(systemDesign, selectedPanel, selectedInverter, selectedBattery);
+  }, [systemDesign, selectedPanel, selectedInverter, selectedBattery]);
+
+  // Use adjusted values if available, fall back to original
+  const activeCapex      = adjusted?.capex      ?? systemDesign?.capexBreakdown;
+  const activeFinancials = adjusted?.financials  ?? systemDesign?.financials;
 
   return (
     <>
@@ -88,21 +100,31 @@ export function DesignView() {
 
           <section className="card">
             <h2>{t('results.financials')}</h2>
-            <Kpis
-              capex={systemDesign.capexBreakdown}
-              financials={systemDesign.financials}
-              generator={systemDesign.generator}
-            />
+            {activeCapex && activeFinancials && (
+              <Kpis
+                capex={activeCapex}
+                financials={activeFinancials}
+                generator={systemDesign.generator}
+              />
+            )}
           </section>
 
-          <section className="card">
-            <RoiChart financials={systemDesign.financials} />
-          </section>
+          {activeFinancials && (
+            <section className="card">
+              <RoiChart financials={activeFinancials} />
+            </section>
+          )}
 
-          <section className="card">
-            <h2>{t('sensitivity.title')}</h2>
-            <SensitivityPanel design={systemDesign} />
-          </section>
+          {activeCapex && activeFinancials && (
+            <section className="card">
+              <h2>{t('sensitivity.title')}</h2>
+              <SensitivityPanel design={{
+                ...systemDesign,
+                capexBreakdown: activeCapex,
+                financials: activeFinancials,
+              }} />
+            </section>
+          )}
 
           <div className="design-form__submit design-form__submit--row">
             <SaveDesignButton />

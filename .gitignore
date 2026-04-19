@@ -50,3 +50,4 @@ lerna-debug.log*
 # ── Coverage / testing ──────────────────────────────────────────────────────
 coverage/
 .nyc_output/
+.vercel
