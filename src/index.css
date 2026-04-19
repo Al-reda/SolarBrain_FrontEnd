@@ -429,7 +429,7 @@ code {
 /* ── React Flow system diagram ────────────────────────────────── */
 
 .diagram-wrap {
-  height: 380px;
+  height: 520px;
   border: 0.5px solid var(--sb-border);
   border-radius: 10px;
   background: var(--sb-muted);
@@ -560,7 +560,7 @@ code {
 .roi-chart__header    { display: flex; flex-direction: column; gap: 2px; }
 
 .diagram-wrap {
-  height: 360px;
+  height: 520px;
   border: 0.5px solid var(--sb-border);
   border-radius: 10px;
   background: var(--sb-muted);
@@ -1660,4 +1660,40 @@ html[dir="rtl"] .app-header__right { flex-direction: row-reverse; }
 .sens-kpi--worse .sens-kpi__delta {
   background: rgba(181, 40, 40, 0.12);
   color: #B52828;
+}
+
+
+/* ═════════════════════════════════════════════════════════════════
+   SYSTEM DIAGRAM — Brain node
+═════════════════════════════════════════════════════════════════ */
+
+.diagram-brain {
+  background: linear-gradient(135deg, var(--sb-navy), #162430);
+  border: 2px solid var(--sb-gold);
+  border-radius: 14px;
+  padding: 14px 22px;
+  min-width: 200px;
+  text-align: center;
+  box-shadow:
+    0 0 12px rgba(200, 147, 46, 0.25),
+    0 0 0 4px rgba(200, 147, 46, 0.08);
+  position: relative;
+}
+.diagram-brain__icon {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+.diagram-brain__title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sb-gold);
+  letter-spacing: 0.5px;
+}
+.diagram-brain__sub {
+  font-size: 10px;
+  color: var(--sb-sand);
+  line-height: 1.5;
+  white-space: pre-line;
+  margin-top: 3px;
+  opacity: 0.85;
 }
