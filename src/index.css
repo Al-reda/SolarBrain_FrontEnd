@@ -1118,7 +1118,7 @@ html[dir="rtl"] .app-header__right { flex-direction: row-reverse; }
 }
 
 .sb-map__canvas {
-  height: 260px;
+  height: 420px;
   width:  100%;
   background: #F5F1E8;
 }
