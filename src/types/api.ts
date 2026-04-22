@@ -38,6 +38,10 @@ export interface FacilityProfile {
   // Off-grid
   hasGenerator?:    boolean;
   generatorKva?:    number;
+
+  // Battery retrofit mode — user already has panels + inverter
+  existingPvKwp?:      number;
+  existingInverterKw?: number;
 }
 
 // ══════════════════════════════════════════════════════════════════════════

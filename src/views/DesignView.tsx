@@ -43,6 +43,9 @@ export function DesignView() {
   const activeCapex      = adjusted?.capex      ?? systemDesign?.capexBreakdown;
   const activeFinancials = adjusted?.financials  ?? systemDesign?.financials;
 
+  // Detect retrofit mode — backend returns synthetic "existing_pv" panel
+  const isRetrofitDesign = systemDesign?.panels[0]?.id === 'existing_pv';
+
   return (
     <>
       {/* Cinematic hero — hides itself once a design has been generated */}
@@ -75,18 +78,22 @@ export function DesignView() {
             <FormulasPanel design={systemDesign} />
           </section>
 
-          <section className="card">
-            <h2>{t('results.panelRecs')}</h2>
-            <PanelCards options={systemDesign.panels} />
-          </section>
+          {!isRetrofitDesign && (
+            <section className="card">
+              <h2>{t('results.panelRecs')}</h2>
+              <PanelCards options={systemDesign.panels} />
+            </section>
+          )}
+
+          {!isRetrofitDesign && (
+            <section className="card">
+              <h2>{t('results.inverterRecs')}</h2>
+              <InverterCards options={systemDesign.inverters} />
+            </section>
+          )}
 
           <section className="card">
-            <h2>{t('results.inverterRecs')}</h2>
-            <InverterCards options={systemDesign.inverters} />
-          </section>
-
-          <section className="card">
-            <h2>{t('results.batteryRecs')}</h2>
+            <h2>{isRetrofitDesign ? t('results.batteryRecsRetrofit') : t('results.batteryRecs')}</h2>
             <BatteryCards options={systemDesign.batteries} />
           </section>
 

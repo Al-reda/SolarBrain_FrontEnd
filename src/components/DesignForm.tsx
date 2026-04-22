@@ -101,6 +101,15 @@ export function DesignForm() {
 
   const isResidential = form.userType === 'residential';
   const offGrid = form.gridScenario === 'off_grid';
+  const isRetrofit = !!(form.existingPvKwp && form.existingInverterKw);
+
+  function toggleRetrofit(on: boolean) {
+    if (on) {
+      dispatch({ type: 'SET_FORM', form: { existingPvKwp: 100, existingInverterKw: 50 } });
+    } else {
+      dispatch({ type: 'SET_FORM', form: { existingPvKwp: undefined, existingInverterKw: undefined } });
+    }
+  }
 
   return (
     <form onSubmit={onSubmit} className="design-form">
@@ -146,6 +155,50 @@ export function DesignForm() {
           </button>
         </div>
       </Field>
+
+      {/* Row 2c — System mode: new or retrofit */}
+      <Field label={t('form.systemModeLabel')}>
+        <div className="seg seg--compact">
+          <button
+            type="button"
+            className={`seg-pill ${!isRetrofit ? 'seg-pill--on' : ''}`}
+            onClick={() => toggleRetrofit(false)}
+          >
+            {t('form.newSystem')}
+          </button>
+          <button
+            type="button"
+            className={`seg-pill ${isRetrofit ? 'seg-pill--on' : ''}`}
+            onClick={() => toggleRetrofit(true)}
+          >
+            {t('form.retrofit')}
+          </button>
+        </div>
+      </Field>
+
+      {/* Row 2d — Existing system specs (retrofit only) */}
+      {isRetrofit && (
+        <div className="row row-2">
+          <Field label={t('form.existingPvLabel')}>
+            <input
+              className="input"
+              type="number" min={1} step={10}
+              value={form.existingPvKwp ?? ''}
+              onChange={e => update('existingPvKwp', Number(e.target.value) || undefined)}
+              placeholder="e.g. 200"
+            />
+          </Field>
+          <Field label={t('form.existingInvLabel')}>
+            <input
+              className="input"
+              type="number" min={1} step={10}
+              value={form.existingInverterKw ?? ''}
+              onChange={e => update('existingInverterKw', Number(e.target.value) || undefined)}
+              placeholder="e.g. 100"
+            />
+          </Field>
+        </div>
+      )}
 
       {/* Row 3 — Bill + primary user-type metric + critical % */}
       <div className="row row-3">
