@@ -18,6 +18,7 @@ import { Kpis }           from '../components/Kpis';
 import { RoiChart }       from '../components/RoiChart';
 import { SystemDiagram }  from '../components/SystemDiagram';
 import { SensitivityPanel } from '../components/SensitivityPanel';
+import { FormulasPanel } from '../components/FormulasPanel';
 import { DownloadProposalButton } from '../components/DownloadProposalButton';
 import { SaveDesignButton } from '../components/SaveDesignButton';
 import { recalcDesign } from '../lib/recalcDesign';
@@ -68,6 +69,10 @@ export function DesignView() {
               <Stat label={t('stat.batteryReq')}  value={`${systemDesign.requirements.batteryKwhRequired} kWh`} />
               <Stat label={t('stat.inverterReq')} value={`${systemDesign.requirements.inverterKwRequired} kW`} />
             </div>
+          </section>
+
+          <section className="card">
+            <FormulasPanel design={systemDesign} />
           </section>
 
           <section className="card">

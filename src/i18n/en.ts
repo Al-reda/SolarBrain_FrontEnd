@@ -109,6 +109,17 @@ export const en = {
     placeholder:  'Click a city or drop a pin anywhere in Saudi Arabia',
     nearLabel:    'Near',
   },
+  formulas: {
+    title:            'Engineering formulas & calculations',
+    intro:            'These are the exact equations used by the SolarBrain sizing engine. All values are computed from your facility profile and the selected Saudi region data.',
+    pvSizing:         'PV Array Sizing',
+    batterySizing:    'Battery Bank Sizing',
+    inverterSizing:   'Inverter Sizing',
+    annualProduction: 'Annual Energy Production',
+    gridSavings:      'Annual Grid Savings',
+    breakEven:        'Break-even Analysis',
+    capex:            'CAPEX Breakdown',
+  },
   sensitivity: {
     title:             'Sensitivity analysis',
     intro:             'Explore how Saudi tariffs, electricity inflation, and panel aging affect your 10-year payback. The green line updates live as you drag the sliders.',
