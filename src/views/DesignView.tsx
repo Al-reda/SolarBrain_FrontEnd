@@ -106,6 +106,7 @@ export function DesignView() {
                 battery={selectedBattery}
                 generator={systemDesign.generator}
                 gridScenario={systemDesign.profile.gridScenario}
+                criticalLoadPct={systemDesign.profile.criticalLoadPct}
               />
             </section>
           )}
@@ -121,9 +122,9 @@ export function DesignView() {
             )}
           </section>
 
-          {activeFinancials && (
+          {activeFinancials && activeCapex && (
             <section className="card">
-              <RoiChart financials={activeFinancials} />
+              <RoiChart financials={activeFinancials} capex={activeCapex} />
             </section>
           )}
 

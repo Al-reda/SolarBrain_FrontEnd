@@ -1,38 +1,42 @@
 /**
- * RoiChart.tsx — 10-year cumulative savings vs baseline cost.
- * Uses Recharts' LineChart with two series:
- *   - Cumulative savings (climbs year over year)
- *   - Baseline cost (what they'd pay without the system, straight line)
- * Highlights the break-even point with a reference dot.
+ * RoiChart.tsx — 10-year payback chart.
+ *
+ * Shows cumulative savings as a growing line vs a horizontal CAPEX
+ * reference line. The break-even point is where savings crosses CAPEX.
+ * Much clearer than the old "savings vs baseline cost" which confused
+ * users when the two lines had different scales.
  */
 
 import {
-  CartesianGrid, Legend, Line, LineChart, ReferenceDot,
+  CartesianGrid, Legend, Line, LineChart, ReferenceDot, ReferenceLine,
   ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from 'recharts';
-import type { FinancialModel } from '../types/api';
+import type { CapexBreakdown, FinancialModel } from '../types/api';
 
 const fmt = (n: number) => `${(n / 1000).toFixed(0)}k`;
 
-export function RoiChart({ financials }: { financials: FinancialModel }) {
+interface Props {
+  financials: FinancialModel;
+  capex?: CapexBreakdown;
+}
+
+export function RoiChart({ financials, capex }: Props) {
+  const capexTotal = capex?.totalSar ?? financials.capexTotalSar;
+
   const data = financials.yearlyData.map(y => ({
     year: y.year,
-    savings: y.cumulativeSavingsSar,
-    baseline: y.baselineCostSar,
+    savings: Math.round(y.cumulativeSavingsSar),
+    baseline: Math.round(y.baselineCostSar),
   }));
 
   const beYear = financials.breakEvenYear;
-  const beDot = beYear
-    ? data.find(d => d.year === beYear)
-    : null;
+  const beDot = beYear ? data.find(d => d.year === beYear) : null;
 
   return (
     <div className="roi-chart">
       <div className="roi-chart__header">
         <h3>10-year financial projection</h3>
-        <span className="muted">
-          Cumulative savings vs cost of doing nothing
-        </span>
+        <span className="muted">Cumulative savings vs investment cost</span>
       </div>
 
       <ResponsiveContainer width="100%" height={300}>
@@ -57,14 +61,35 @@ export function RoiChart({ financials }: { financials: FinancialModel }) {
             contentStyle={{ fontSize: 12, borderRadius: 8, border: '0.5px solid #D1D5DB' }}
           />
           <Legend wrapperStyle={{ fontSize: 12 }} />
+
+          {/* CAPEX horizontal reference line */}
+          <ReferenceLine
+            y={capexTotal}
+            stroke="#A32D2D"
+            strokeWidth={2}
+            strokeDasharray="6 4"
+            label={{
+              value: `CAPEX: ${fmt(capexTotal)} SAR`,
+              position: 'right',
+              fill: '#A32D2D',
+              fontSize: 11,
+              fontWeight: 600,
+            }}
+          />
+
+          {/* Cumulative savings — growing line */}
           <Line
             type="monotone" dataKey="savings" name="Cumulative savings"
-            stroke="#1D9E75" strokeWidth={2} dot={{ r: 3 }}
+            stroke="#1D9E75" strokeWidth={2.5} dot={{ r: 3 }}
           />
+
+          {/* Baseline cost — what you'd pay without solar */}
           <Line
-            type="monotone" dataKey="baseline" name="Doing nothing (baseline)"
-            stroke="#A32D2D" strokeWidth={2} strokeDasharray="6 4" dot={false}
+            type="monotone" dataKey="baseline" name="Grid cost (no solar)"
+            stroke="#8B8072" strokeWidth={1.5} strokeDasharray="4 3" dot={false}
           />
+
+          {/* Break-even dot */}
           {beDot && (
             <ReferenceDot
               x={beDot.year} y={beDot.savings}
