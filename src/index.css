@@ -1803,3 +1803,69 @@ html[dir="rtl"] .formulas__toggle { text-align: right; }
   font-variant-numeric: tabular-nums;
   text-align: end;
 }
+
+
+/* ═════════════════════════════════════════════════════════════════
+   CUMULATIVE COST COMPARISON — simulation bar chart
+═════════════════════════════════════════════════════════════════ */
+
+.cum-cost { display: flex; flex-direction: column; gap: 16px; }
+
+.cum-cost__kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+@media (max-width: 640px) { .cum-cost__kpis { grid-template-columns: 1fr; } }
+
+.cum-cost__kpi {
+  padding: 14px 16px;
+  border: 1px solid var(--sb-border);
+  border-radius: 10px;
+  background: var(--sb-surface);
+}
+.cum-cost__kpi--green {
+  border-color: rgba(61, 107, 78, 0.3);
+  background: #F0F7EF;
+}
+.cum-cost__kpi-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--sb-text-dim); margin-bottom: 4px;
+}
+.cum-cost__kpi-value {
+  font-size: 22px; font-weight: 700; color: var(--sb-navy);
+  font-variant-numeric: tabular-nums; line-height: 1.1;
+}
+.cum-cost__kpi--green .cum-cost__kpi-value { color: var(--sb-oasis); }
+.cum-cost__kpi-sub {
+  font-size: 11px; color: var(--sb-text-dim); margin-top: 3px;
+}
+
+.cum-cost__bars { margin-top: 4px; }
+.cum-cost__bar-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-size: 12px; margin-bottom: 4px;
+}
+.cum-cost__bar-label { color: var(--sb-text-dim); }
+.cum-cost__bar-amount { font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.cum-cost__bar {
+  height: 36px; border-radius: 6px; display: flex; align-items: center;
+  min-width: 60px; transition: width 0.4s ease;
+}
+.cum-cost__bar--baseline { background: #DC3545; }
+.cum-cost__bar--actual   { background: var(--sb-oasis); }
+.cum-cost__bar-inner {
+  padding: 0 12px; font-size: 12px; font-weight: 700; color: #fff;
+  white-space: nowrap;
+}
+
+.cum-cost__savings-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 10px; padding: 8px 12px; border-radius: 6px;
+  background: #F0F7EF; border: 1px solid rgba(61, 107, 78, 0.2);
+  font-size: 12px; color: var(--sb-oasis);
+}
+.cum-cost__savings-pct {
+  font-weight: 700; font-size: 14px; color: var(--sb-oasis);
+}

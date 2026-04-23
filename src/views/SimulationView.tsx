@@ -12,6 +12,7 @@ import { PlaybackControls } from '../components/PlaybackControls';
 import { HistoryChart } from '../components/HistoryChart';
 import { DecisionLog } from '../components/DecisionLog';
 import { ScenarioPanel } from '../components/ScenarioPanel';
+import { CumulativeCost } from '../components/CumulativeCost';
 
 export function SimulationView() {
   const { t } = useTranslation();
@@ -97,6 +98,17 @@ export function SimulationView() {
         <section className="card">
           <h2>{t('sim.energyFlow')}</h2>
           <EnergyFlow state={simState} design={systemDesign} />
+        </section>
+      )}
+
+      {/* Cumulative cost comparison */}
+      {simState && simState.interval > 0 && (
+        <section className="card">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+            <h2 style={{ margin: 0 }}>Cumulative cost comparison — this session</h2>
+            <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--sb-oasis)', border: '1px solid var(--sb-oasis)', padding: '3px 10px', borderRadius: 6 }}>LIVE · updates every step</span>
+          </div>
+          <CumulativeCost state={simState} design={systemDesign} />
         </section>
       )}
 
