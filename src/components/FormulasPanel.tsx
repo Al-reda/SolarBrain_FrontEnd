@@ -8,18 +8,23 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { SystemDesign } from '../types/api';
+import type { CapexBreakdown, FinancialModel, SystemDesign } from '../types/api';
 
-interface Props { design: SystemDesign }
+interface Props {
+  design: SystemDesign;
+  activeCapex?: CapexBreakdown;
+  activeFinancials?: FinancialModel;
+}
 
-export function FormulasPanel({ design }: Props) {
+export function FormulasPanel({ design, activeCapex, activeFinancials }: Props) {
   const { t } = useTranslation();
   const [eeOpen, setEeOpen] = useState(false);
   const [bizOpen, setBizOpen] = useState(false);
   const p = design.profile;
   const r = design.requirements;
-  const f = design.financials;
-  const c = design.capexBreakdown;
+  // Use adjusted values if provided, fall back to design originals
+  const f = activeFinancials ?? design.financials;
+  const c = activeCapex ?? design.capexBreakdown;
   const y1 = f.yearlyData[0];
   const y1Prod = y1?.productionKwh ?? 0;
   const y1Grid = y1?.gridSavingsSar ?? 0;
@@ -71,7 +76,7 @@ export function FormulasPanel({ design }: Props) {
             title={t('formulas.annualProduction')}
             formula="E_year(y) = PV_kWp × GHI × 365 × PR × 0.99^y"
             values={[
-              ['PV Array', `${design.panels[0]?.actualKwp ?? r.pvKwpRequired} kWp`],
+              ['PV Array', `${r.pvKwpRequired} kWp`],
               ['GHI', `${p.ghi} kWh/m²/day`],
               ['PR', `${r.performanceRatio}`],
               ['Degradation', '1% / year (compounding)'],

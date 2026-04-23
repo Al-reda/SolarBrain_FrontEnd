@@ -74,10 +74,6 @@ export function DesignView() {
             </div>
           </section>
 
-          <section className="card">
-            <FormulasPanel design={systemDesign} />
-          </section>
-
           {!isRetrofitDesign && (
             <section className="card">
               <h2>{t('results.panelRecs')}</h2>
@@ -96,6 +92,18 @@ export function DesignView() {
             <h2>{isRetrofitDesign ? t('results.batteryRecsRetrofit') : t('results.batteryRecs')}</h2>
             <BatteryCards options={systemDesign.batteries} />
           </section>
+
+          {/* Formulas section — below component selection so user picks first, then sees math.
+              Receives adjusted capex/financials so values update when user swaps components. */}
+          {activeCapex && activeFinancials && (
+            <section className="card">
+              <FormulasPanel
+                design={systemDesign}
+                activeCapex={activeCapex}
+                activeFinancials={activeFinancials}
+              />
+            </section>
+          )}
 
           {selectedPanel && selectedInverter && selectedBattery && (
             <section className="card">
