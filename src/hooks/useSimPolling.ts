@@ -16,13 +16,14 @@ const POLL_INTERVAL_MS = 1000;
 
 export function useSimPolling() {
   const { state, dispatch } = useApp();
-  const { simRunning, simPaused } = state;
+  const { simRunning, simPaused, simManual } = state;
 
   // Latch the "in-flight" state so we never stack requests
   const inflight = useRef(false);
 
   useEffect(() => {
-    if (!simRunning || simPaused) return;
+    // Don't auto-poll in manual mode or when paused/stopped
+    if (!simRunning || simPaused || simManual) return;
 
     let cancelled = false;
 
@@ -53,5 +54,5 @@ export function useSimPolling() {
       cancelled = true;
       window.clearInterval(id);
     };
-  }, [simRunning, simPaused, dispatch]);
+  }, [simRunning, simPaused, simManual, dispatch]);
 }

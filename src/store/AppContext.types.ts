@@ -45,6 +45,7 @@ export interface AppState {
   simRunning:        boolean;
   simPaused:         boolean;
   simSpeed:          number;
+  simManual:         boolean;
 
   // Navigation
   view:              View;
@@ -80,6 +81,7 @@ export const INITIAL_STATE: AppState = {
   simRunning:  false,
   simPaused:   false,
   simSpeed:    1,
+  simManual:   false,
 
   view: 'design',
 
@@ -102,6 +104,7 @@ export type Action =
   | { type: 'SIM_SET_RUNNING';     running: boolean }
   | { type: 'SIM_SET_PAUSED';      paused: boolean }
   | { type: 'SIM_SET_SPEED';       speed: number }
+  | { type: 'SIM_SET_MANUAL';      manual: boolean }
   | { type: 'NAVIGATE';            view: View }
   | { type: 'SAVE_DESIGN';         saved: SavedDesign }
   | { type: 'REMOVE_SAVED_DESIGN'; id: string }

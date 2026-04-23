@@ -109,6 +109,13 @@ export const en = {
     stressTests:   'Stress tests',
     stressTestsHint: 'Trigger a real-world event and watch the system adapt. Click again to restore normal conditions.',
     needDesignFirst: 'You need a system to simulate. Head over to the designer, generate a configuration for your facility, then come back here to watch it run.',
+    auto:          'Auto',
+    manual:        'Manual',
+    stepForward:   'Step forward',
+    play:          'Play',
+    pause:         'Pause',
+    speed:         'Speed',
+    reset:         'Reset',
   },
   map: {
     pickLocation: 'Where is your facility?',
