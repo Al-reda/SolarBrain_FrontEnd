@@ -1898,3 +1898,19 @@ html[dir="rtl"] .formulas__toggle { text-align: right; }
   color: var(--sb-text-dim);
   font-style: italic;
 }
+
+
+/* ═════════════════════════════════════════════════════════════════
+   SEND ORDER — red email button
+═════════════════════════════════════════════════════════════════ */
+
+.btn--send {
+  background: #DC3545;
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.btn--send:hover { background: #B52828; }
+.btn--send:active { background: #9A1F1F; }

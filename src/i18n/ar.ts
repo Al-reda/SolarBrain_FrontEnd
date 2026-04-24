@@ -91,6 +91,7 @@ export const ar = {
     notesPlaceholder:     'مثال: "نشغّل معدات ثقيلة من 6ص–2م، التكييف يعمل 24 ساعة صيفًا، السيرفرات لا يجب أن تنقطع أبدًا..."',
     diagram:          'مخطط خط مفرد',
     financials:       'الجانب المالي',
+    sendOrder:        'إرسال الطلب',
     runSim:           'تشغيل المحاكاة المباشرة ←',
     downloadProposal:    'تنزيل العرض (PDF)',
     downloadingProposal: 'جارٍ إنشاء العرض…',

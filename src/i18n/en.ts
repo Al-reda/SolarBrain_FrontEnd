@@ -90,6 +90,7 @@ export const en = {
     notesPlaceholder:     'e.g. "We run heavy machinery 6am–2pm, AC is on 24/7 in summer, critical servers must never go offline..."',
     diagram:          'Single-line diagram',
     financials:       'Financials',
+    sendOrder:        'Send order',
     runSim:           'Run live simulation →',
     downloadProposal:    'Download proposal (PDF)',
     downloadingProposal: 'Generating proposal…',

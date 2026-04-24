@@ -21,6 +21,7 @@ import { SensitivityPanel } from '../components/SensitivityPanel';
 import { FormulasPanel } from '../components/FormulasPanel';
 import { DownloadProposalButton } from '../components/DownloadProposalButton';
 import { SaveDesignButton } from '../components/SaveDesignButton';
+import { SendOrderButton } from '../components/SendOrderButton';
 import { recalcDesign } from '../lib/recalcDesign';
 
 export function DesignView() {
@@ -168,6 +169,7 @@ export function DesignView() {
           <div className="design-form__submit design-form__submit--row">
             <SaveDesignButton />
             <DownloadProposalButton />
+            <SendOrderButton />
             <button
               className="btn btn--amber btn--lg"
               disabled={!canGoToSim}
