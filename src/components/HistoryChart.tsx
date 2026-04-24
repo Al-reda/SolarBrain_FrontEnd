@@ -31,6 +31,7 @@ export function HistoryChart({ history }: Props) {
     battery:   s.batteryDischargeKw,
     grid:      s.gridKw,
     generator: s.generatorKw,
+    load:      s.loadKw,
     soc:       s.batterySocPct,
   }));
 
@@ -72,6 +73,7 @@ export function HistoryChart({ history }: Props) {
         <Area yAxisId="left" type="monotone" dataKey="battery"   stackId="1" stroke="#534AB7" fill="#534AB7" fillOpacity={0.7} name="Battery" />
         <Area yAxisId="left" type="monotone" dataKey="grid"      stackId="1" stroke="#185FA5" fill="#185FA5" fillOpacity={0.6} name="Grid" />
         <Area yAxisId="left" type="monotone" dataKey="generator" stackId="1" stroke="#6B7280" fill="#6B7280" fillOpacity={0.6} name="Generator" />
+        <Line yAxisId="left" type="monotone" dataKey="load" stroke="#DC3545" strokeWidth={2.5} strokeDasharray="6 3" dot={false} name="Load (demand)" />
         <Line yAxisId="right" type="monotone" dataKey="soc" stroke="#1D9E75" strokeWidth={2} dot={false} name="SOC %" />
       </ComposedChart>
     </ResponsiveContainer>
