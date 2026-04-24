@@ -148,14 +148,14 @@ export function SaudiMap({ value, onChange }: SaudiMapProps) {
       <div className="sb-map__source">
         {value ? (
           <a
-            href={`https://power.larc.nasa.gov/api/temporal/climatology/point?parameters=ALLSKY_SFC_SW_DWN&community=RE&longitude=${value.lng}&latitude=${value.lat}&format=JSON`}
+            href={`https://power.larc.nasa.gov/data-access-viewer/?lat=${value.lat}&lon=${value.lng}&parameters=ALLSKY_SFC_SW_DWN&community=RE&temporal=climatology`}
             target="_blank" rel="noopener noreferrer"
           >
-            Source: NASA POWER API — Click to verify GHI for {value.cityLabel} ({value.lat.toFixed(2)}°, {value.lng.toFixed(2)}°)
+            📡 Verify GHI for {value.cityLabel} on NASA POWER →
           </a>
         ) : (
           <a href="https://power.larc.nasa.gov/data-access-viewer/" target="_blank" rel="noopener noreferrer">
-            Source: NASA POWER API (Global Solar Irradiance)
+            📡 Source: NASA POWER API
           </a>
         )}
       </div>
