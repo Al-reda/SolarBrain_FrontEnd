@@ -1914,3 +1914,40 @@ html[dir="rtl"] .formulas__toggle { text-align: right; }
 }
 .btn--send:hover { background: #B52828; }
 .btn--send:active { background: #9A1F1F; }
+
+
+/* ═════════════════════════════════════════════════════════════════
+   SIMULATION DATA LOGGER — tick stats + CSV download
+═════════════════════════════════════════════════════════════════ */
+
+.data-logger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.data-logger__info {
+  display: flex;
+  gap: 24px;
+}
+
+.data-logger__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.data-logger__label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--sb-text-dim);
+}
+.data-logger__value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--sb-navy);
+  font-variant-numeric: tabular-nums;
+}

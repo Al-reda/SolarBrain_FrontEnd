@@ -128,6 +128,12 @@ export const ar = {
     pause:         'إيقاف مؤقت',
     speed:         'السرعة',
     reset:         'إعادة تعيين',
+    dataLogger:    'سجل بيانات المحاكاة',
+    loggedTicks:   'نقاط مسجّلة',
+    simTime:       'الوقت المحاكى',
+    columns:       'أعمدة البيانات',
+    downloadLog:   'تحميل سجل CSV',
+    rows:          'صف',
   },
   map: {
     pickLocation: 'أين منشأتك؟',

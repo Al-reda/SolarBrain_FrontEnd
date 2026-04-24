@@ -13,6 +13,7 @@ import { HistoryChart } from '../components/HistoryChart';
 import { DecisionLog } from '../components/DecisionLog';
 import { ScenarioPanel } from '../components/ScenarioPanel';
 import { CumulativeCost } from '../components/CumulativeCost';
+import { SimDataLogger } from '../components/SimDataLogger';
 
 export function SimulationView() {
   const { t } = useTranslation();
@@ -116,6 +117,12 @@ export function SimulationView() {
       <section className="card">
         <h2>{t('sim.history24')}</h2>
         <HistoryChart history={state.simHistory} />
+      </section>
+
+      {/* Data logger — export simulation data as CSV */}
+      <section className="card">
+        <h2>{t('sim.dataLogger')}</h2>
+        <SimDataLogger history={state.simHistory} />
       </section>
 
       <section className="card">

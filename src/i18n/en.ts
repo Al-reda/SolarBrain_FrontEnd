@@ -127,6 +127,12 @@ export const en = {
     pause:         'Pause',
     speed:         'Speed',
     reset:         'Reset',
+    dataLogger:    'Simulation data logger',
+    loggedTicks:   'Logged ticks',
+    simTime:       'Simulated time',
+    columns:       'Data columns',
+    downloadLog:   'Download CSV log',
+    rows:          'rows',
   },
   map: {
     pickLocation: 'Where is your facility?',
