@@ -263,6 +263,28 @@ export function DesignForm() {
             />
           </Field>
         )}
+        {form.userType === 'residential' && form.acUnits && form.acUnits > 0 && (
+          <>
+            <Field label={t('form.acTypeLabel')}>
+              <div className="seg seg--compact">
+                <button type="button" className={`seg-pill ${form.acType !== 'central' ? 'seg-pill--on' : ''}`} onClick={() => update('acType', 'split')}>
+                  {t('form.acSplit')}
+                </button>
+                <button type="button" className={`seg-pill ${form.acType === 'central' ? 'seg-pill--on' : ''}`} onClick={() => update('acType', 'central')}>
+                  {t('form.acCentral')}
+                </button>
+              </div>
+            </Field>
+            <Field label={t('form.acHoursLabel')}>
+              <input
+                className="input"
+                type="number" min={1} max={24} step={1}
+                value={form.acHoursDay ?? 14}
+                onChange={e => update('acHoursDay', Number(e.target.value) || undefined)}
+              />
+            </Field>
+          </>
+        )}
 
         <Field label={t('form.criticalPctLabel')}>
           <input

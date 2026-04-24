@@ -34,6 +34,8 @@ export interface FacilityProfile {
 
   // Residential-specific
   acUnits?:         number;
+  acType?:          'split' | 'central';
+  acHoursDay?:      number;
 
   // Off-grid
   hasGenerator?:    boolean;
