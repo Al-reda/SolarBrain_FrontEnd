@@ -1951,3 +1951,109 @@ html[dir="rtl"] .formulas__toggle { text-align: right; }
   color: var(--sb-navy);
   font-variant-numeric: tabular-nums;
 }
+
+
+/* ═════════════════════════════════════════════════════════════════
+   MOBILE RESPONSIVE FIXES — phone screens ≤480px
+═════════════════════════════════════════════════════════════════ */
+
+html, body { overflow-x: hidden; }
+
+@media (max-width: 480px) {
+
+  .view { padding: 16px 12px 60px; }
+
+  .app-header__inner {
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 14px;
+  }
+  .app-header__right {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .app-header__nav {
+    flex: 1;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .nav-tab {
+    padding: 6px 12px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .lang-toggle {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+
+  .seg-pill {
+    padding: 7px 8px;
+    font-size: 11px;
+  }
+
+  .card { padding: 14px; }
+
+  .btn { padding: 10px 14px; font-size: 12px; }
+  .btn--lg { padding: 11px 16px; font-size: 13px; }
+
+  .design-form__submit--row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  .design-form__submit--row .btn,
+  .design-form__submit--row .pdf-btn-wrap {
+    width: 100%;
+  }
+  .design-form__submit--row .pdf-btn-wrap .btn {
+    width: 100%;
+  }
+
+  .kpi-row { grid-template-columns: 1fr !important; }
+
+  .capex-row { font-size: 12px; }
+
+  .diagram-wrap { height: 320px; min-height: 260px; }
+
+  .controls {
+    gap: 8px;
+    justify-content: center;
+  }
+  .controls .btn { padding: 8px 12px; font-size: 11px; }
+  .speed-group { margin-left: 0; }
+  .speed-pill { padding: 4px 8px; font-size: 10px; }
+
+  .sim-kpi-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px; }
+
+  .profile-grid { grid-template-columns: 1fr !important; }
+
+  .rec-grid { grid-template-columns: 1fr !important; }
+
+  .sb-map__canvas { height: 280px; }
+
+  .cum-cost__kpis { grid-template-columns: 1fr !important; }
+  .cum-cost__kpi-value { font-size: 18px; }
+
+  .data-logger {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .data-logger__info { gap: 16px; }
+  .data-logger__value { font-size: 16px; }
+
+  .user-notes { font-size: 12px; }
+
+  .compare-grid { grid-template-columns: 1fr !important; }
+
+  .sensitivity-panel { padding: 12px; }
+
+  .formulas__equation { font-size: 11px; word-break: break-all; }
+  .formulas__block { padding: 10px; }
+}
+
+@media (max-width: 768px) and (min-width: 481px) {
+  .app-header__inner { padding: 10px 16px; }
+  .nav-tab { padding: 6px 14px; font-size: 12px; }
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .diagram-wrap { height: 360px; }
+}
