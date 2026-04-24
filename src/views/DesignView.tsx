@@ -143,6 +143,7 @@ export function DesignView() {
                 capex={activeCapex}
                 financials={activeFinancials}
                 generator={systemDesign.generator}
+                userType={systemDesign.profile.userType}
               />
             )}
           </section>
