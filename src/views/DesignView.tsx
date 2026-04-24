@@ -97,6 +97,19 @@ export function DesignView() {
             </section>
           )}
 
+          {/* User notes — let them describe their usage patterns */}
+          <section className="card">
+            <h2>{t('results.notesTitle')}</h2>
+            <p className="muted" style={{ fontSize: 12, margin: '0 0 10px' }}>{t('results.notesHint')}</p>
+            <textarea
+              className="input user-notes"
+              rows={3}
+              placeholder={t('results.notesPlaceholder')}
+              value={state.userNotes}
+              onChange={e => dispatch({ type: 'SET_NOTES', notes: e.target.value })}
+            />
+          </section>
+
           {/* Formulas section — below component selection so user picks first, then sees math.
               Receives adjusted capex/financials so values update when user swaps components. */}
           {activeCapex && activeFinancials && (

@@ -53,6 +53,7 @@ export function appReducer(state: AppState, action: Action): AppState {
     case 'SIM_SET_PAUSED':  return { ...state, simPaused:  action.paused };
     case 'SIM_SET_SPEED':   return { ...state, simSpeed:   action.speed };
     case 'SIM_SET_MANUAL':  return { ...state, simManual:  action.manual };
+    case 'SET_NOTES':       return { ...state, userNotes:  action.notes };
 
     case 'NAVIGATE':        return { ...state, view: action.view };
 

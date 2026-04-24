@@ -38,6 +38,7 @@ export interface AppState {
   selectedBattery:   RankedBattery | null;
   designLoading:     boolean;
   designError:       string | null;
+  userNotes:         string;
 
   // Layer 2
   simState:          SimulationState | null;
@@ -75,6 +76,7 @@ export const INITIAL_STATE: AppState = {
   selectedBattery:  null,
   designLoading:    false,
   designError:      null,
+  userNotes:        '',
 
   simState:    null,
   simHistory:  [],
@@ -105,6 +107,7 @@ export type Action =
   | { type: 'SIM_SET_PAUSED';      paused: boolean }
   | { type: 'SIM_SET_SPEED';       speed: number }
   | { type: 'SIM_SET_MANUAL';      manual: boolean }
+  | { type: 'SET_NOTES';           notes: string }
   | { type: 'NAVIGATE';            view: View }
   | { type: 'SAVE_DESIGN';         saved: SavedDesign }
   | { type: 'REMOVE_SAVED_DESIGN'; id: string }

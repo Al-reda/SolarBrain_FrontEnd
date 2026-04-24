@@ -1869,3 +1869,32 @@ html[dir="rtl"] .formulas__toggle { text-align: right; }
 .cum-cost__savings-pct {
   font-weight: 700; font-size: 14px; color: var(--sb-oasis);
 }
+
+
+/* ═════════════════════════════════════════════════════════════════
+   USER NOTES — textarea for usage patterns
+═════════════════════════════════════════════════════════════════ */
+
+.user-notes {
+  width: 100%;
+  min-height: 72px;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 10px 14px;
+  border: 1px solid var(--sb-border);
+  border-radius: 8px;
+  background: var(--sb-muted);
+  color: var(--sb-text);
+  transition: border-color 0.15s ease;
+}
+.user-notes:focus {
+  outline: none;
+  border-color: var(--sb-gold);
+  box-shadow: 0 0 0 2px rgba(200, 147, 46, 0.15);
+}
+.user-notes::placeholder {
+  color: var(--sb-text-dim);
+  font-style: italic;
+}
