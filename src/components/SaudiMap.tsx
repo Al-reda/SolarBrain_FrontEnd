@@ -145,6 +145,11 @@ export function SaudiMap({ value, onChange }: SaudiMapProps) {
           <span className="sb-map__hint">{t('map.placeholder')}</span>
         )}
       </div>
+      <div className="sb-map__source">
+        <a href="https://power.larc.nasa.gov/data-access-viewer/" target="_blank" rel="noopener noreferrer">
+          Source: NASA POWER API (Global Solar Irradiance)
+        </a>
+      </div>
     </div>
   );
 }

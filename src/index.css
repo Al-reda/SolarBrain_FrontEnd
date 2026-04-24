@@ -1143,6 +1143,19 @@ html[dir="rtl"] .app-header__right { flex-direction: row-reverse; }
 .sb-map__dot    { color: var(--sb-border); }
 .sb-map__hint   { color: var(--sb-text-dim); font-style: italic; }
 
+.sb-map__source {
+  padding: 4px 14px 6px;
+  background: var(--sb-surface);
+  text-align: right;
+}
+.sb-map__source a {
+  font-size: 10px;
+  color: var(--sb-text-dim);
+  text-decoration: none;
+  opacity: 0.7;
+}
+.sb-map__source a:hover { opacity: 1; text-decoration: underline; }
+
 /* Custom marker — gold dot with a soft glow */
 .sb-city-icon__dot {
   width: 10px;
