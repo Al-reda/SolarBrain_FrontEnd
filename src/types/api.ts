@@ -42,6 +42,9 @@ export interface FacilityProfile {
   // Battery retrofit mode — user already has panels + inverter
   existingPvKwp?:      number;
   existingInverterKw?: number;
+
+  // No battery mode — solar + inverter only, no storage
+  noBattery?:          boolean;
 }
 
 // ══════════════════════════════════════════════════════════════════════════

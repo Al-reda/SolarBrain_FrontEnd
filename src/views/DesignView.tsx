@@ -45,6 +45,8 @@ export function DesignView() {
 
   // Detect retrofit mode — backend returns synthetic "existing_pv" panel
   const isRetrofitDesign = systemDesign?.panels[0]?.id === 'existing_pv';
+  // Detect no-battery mode — backend returns synthetic "no_battery" battery
+  const isNoBattery = systemDesign?.batteries[0]?.id === 'no_battery';
 
   return (
     <>
@@ -88,10 +90,12 @@ export function DesignView() {
             </section>
           )}
 
-          <section className="card">
-            <h2>{isRetrofitDesign ? t('results.batteryRecsRetrofit') : t('results.batteryRecs')}</h2>
-            <BatteryCards options={systemDesign.batteries} />
-          </section>
+          {!isNoBattery && (
+            <section className="card">
+              <h2>{isRetrofitDesign ? t('results.batteryRecsRetrofit') : t('results.batteryRecs')}</h2>
+              <BatteryCards options={systemDesign.batteries} />
+            </section>
+          )}
 
           {/* Formulas section — below component selection so user picks first, then sees math.
               Receives adjusted capex/financials so values update when user swaps components. */}

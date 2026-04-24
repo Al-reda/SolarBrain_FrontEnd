@@ -200,6 +200,28 @@ export function DesignForm() {
         </div>
       )}
 
+      {/* Row 2e — No battery option (only for new systems, not retrofit) */}
+      {!isRetrofit && (
+        <Field label={t('form.batteryOptionLabel')}>
+          <div className="seg seg--compact">
+            <button
+              type="button"
+              className={`seg-pill ${!form.noBattery ? 'seg-pill--on' : ''}`}
+              onClick={() => update('noBattery', false)}
+            >
+              {t('form.withBattery')}
+            </button>
+            <button
+              type="button"
+              className={`seg-pill ${form.noBattery ? 'seg-pill--on' : ''}`}
+              onClick={() => update('noBattery', true)}
+            >
+              {t('form.noBattery')}
+            </button>
+          </div>
+        </Field>
+      )}
+
       {/* Row 3 — Bill + primary user-type metric + critical % */}
       <div className="row row-3">
         <Field label={t('form.monthlyBillLabel')}>
